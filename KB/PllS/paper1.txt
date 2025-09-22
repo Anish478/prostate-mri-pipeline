@@ -1,0 +1,1281 @@
+EBioMedicine 63 (2021) 103163
+
+Contents lists available at ScienceDirect
+
+EBioMedicine
+journal homepage: www.elsevier.com/locate/ebiom
+
+Research paper
+
+A novel imaging based Nomogram for predicting post-surgical
+biochemical recurrence and adverse pathology of prostate cancer from
+pre-operative bi-parametric MRI
+Lin Lia, Rakesh Shiradkara, Patrick Leoa, Ahmad Algoharya, Pingfu Fub, Sree Harsha Tirumanic,
+Amr Mahrand, Christina Buzzyd, Verena C Obmanne,f, Bahar Mansoorig, Ayah El-Fahmawih,
+Mohammed Shahaith, Ashutosh Tewarii, Cristina Magi-Galluzzij, David Leeh, Priti Lalh,
+Lee Ponskyd,k, Eric Kleinl, Andrei S. Puryskol,m, Anant Madabhushia,n,*
+a
+
+Center for Computational Imaging and Personalized Diagnostics, Case Western Reserve University, Cleveland, OH, USA
+Department of Population and Quantitative Health Sciences, Case Western Reserve University, Cleveland, OH, USA
+c
+Department of Radiology, University Hospitals, Cleveland, OH, USA
+d
+Urology Institute, University Hospitals Cleveland Medical Center, Cleveland, OH, USA
+e
+Department of Radiology, Case Western Reserve University and University Hospitals Cleveland Medical Centers, Cleveland, OH, USA
+f
+Department of Diagnostic, Interventional and Pediatric Radiology (DIPR), Inselspital, Bern University Hospital, University of Bern, Switzerland
+g
+Department of Radiology, Abdominal Imaging Division, University of Washington, Seattle, WA, USA
+h
+Penn Medicine, University of Pennsylvania Health System, PA, USA
+i
+Department of Radiology, Icahn School of Medicine at Mount Sinai, New York, New York, USA
+j
+Department of Pathology, University of Alabama at Birmingham, AL, USA
+k
+Case Western Reserve University School of Medicine, Cleveland, OH, USA
+l
+Glickman Urological and Kidney Institute, Cleveland Clinic, Cleveland, OH, USA
+m
+Imaging Institute, Cleveland Clinic, Cleveland, OH, USA
+n
+Louis Stokes Cleveland Veterans Administration Medical Center, USA
+b
+
+A R T I C L E
+
+I N F O
+
+Article History:
+Received 3 September 2020
+Revised 20 November 2020
+Accepted 23 November 2020
+Available online 13 December 2020
+Keywords:
+Prostate cancer
+Biochemical recurrence
+Adverse pathology
+Radiomic
+MRI
+Prognosis
+
+A B S T R A C T
+
+Background: We developed and validated an integrated radiomic-clinicopathologic nomogram (RadClip) for
+post-surgical biochemical recurrence free survival (bRFS) and adverse pathology (AP) prediction in men with
+prostate cancer (PCa). RadClip was further compared against extant prognostics tools like CAPRA and Decipher.
+Methods: A retrospective study of 198 patients with PCa from four institutions who underwent pre-operative
+3 Tesla MRI followed by radical prostatectomy, between 2009 and 2017 with a median 35-month follow-up
+was performed. Radiomic features were extracted from prostate cancer regions on bi-parametric magnetic
+resonance imaging (bpMRI). Cox Proportional-Hazards (CPH) model warped with minimum redundancy
+maximum relevance (MRMR) feature selection was employed to select bpMRI radiomic features for bRFS prediction in the training set (D1, N = 71). In addition, a bpMRI radiomic risk score (RadS) and associated nomogram, RadClip, were constructed in D1 and then compared against the Decipher, pre-operative (CAPRA), and
+post-operative (CAPRA-S) nomograms for bRFS and AP prediction in the testing set (D2, N = 127).
+Findings: “RadClip yielded a higher C-index (0.77, 95% CI 0.65-0.88) compared to CAPRA (0.68, 95% CI 0.570.8) and Decipher (0.51, 95% CI 0.33-0.69) and was found to be comparable to CAPRA-S (0.75, 95% CI 0.650.85). RadClip resulted in a higher AUC (0.71, 95% CI 0.62-0.81) for predicting AP compared to Decipher (0.66,
+95% CI 0.56-0.77) and CAPRA (0.69, 95% CI 0.59-0.79).”
+Interpretation: RadClip was more prognostic of bRFS and AP compared to Decipher and CAPRA. It could help
+pre-operatively identify PCa patients at low risk of biochemical recurrence and AP and who therefore might
+defer additional therapy.
+Funding: The National Institutes of Health, the U.S. Department of Veterans Affairs, and the Department of Defense.
+© 2020 The Author(s). Published by Elsevier B.V. This is an open access article under the CC BY-NC-ND license
+(http://creativecommons.org/licenses/by-nc-nd/4.0/)
+
+* Corresponding author at: Center for Computational Imaging and Personalized
+Diagnostics, 2071 Martin Luther King Drive, Cleveland, Ohio 44106-7207, Wickenden
+523.
+E-mail address: axm788@case.edu (A. Madabhushi).
+https://doi.org/10.1016/j.ebiom.2020.103163
+2352-3964/© 2020 The Author(s). Published by Elsevier B.V. This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/)
+
+2
+
+L. Li et al. / EBioMedicine 63 (2021) 103163
+
+Research in Context
+Evidence before this study
+Prostate cancer (PCa) is the most common cancer among men.
+Approximately 20 to 40 percent of patients experience biochemical recurrence (BCR) following deﬁnitive therapy, and may further develop metastasis. Several tools, such as the Prostate
+Cancer Risk Assessment (CAPRA) score, Post-surgery Prostate
+Cancer Risk Assessment (CAPRA-S) score, and Decipher genomic
+test, have been proposed to identify patients who are at risk of
+developing BCR or adverse pathology (AP). AP is known to be
+strongly associated with risk of BCR and metastasis. Recently,
+radiomic features derived from bi-parametric magnetic resonance imaging (bpMRI) have been shown to capture sub-visual
+texture patterns for quantitative characterization of tumors phenotypes, and radiomic classiﬁers have been shown to aid in PCa
+risk stratiﬁcation. Integrating pre-operative bpMRI derived radiomic parameters with clinicopathologic parameters may allow for
+even better prognostication of AP and PCa-speciﬁc outcome.
+Added value of this study
+In this study, we developed a prognostic nomogram, RadClip,
+and incorporated radiomic features extracted from bpMRI with
+pre-operative clinicopathologic parameters. Following an independent, multisite validation, we found that pre-operative RadClip was more prognostic of BCR and AP compared to Decipher
+and CAPRA for PCa patients who had undergone radical
+prostatectomy.
+Implications of all the available evidence
+The radiomic nomogram presented in this study could be
+potentially used as a surrogate to genomic-based prognostic
+tests to identify PCa patients with low risk of BCR and AP and
+who therefore might defer additional therapy.
+
+1. Introduction
+Radical prostatectomy (RP) is one of the primary treatments for
+localized prostate cancer (PCa) [1]. However, approximately 20% to
+40% of patients experience biochemical recurrence (BCR) who may
+further develop metastasis after deﬁnitive treatment [2 4]. In addition, it has been shown that 25% of patients with low PCa volume and
+biopsy Gleason Grade Group (GG) 2 harbor adverse pathology (AP)
+[5], which is known to be a predictor for developing BCR and subsequent metastasis [6,7], and thus indicates exclusion of active surveillance [8].
+Several tools have been proposed to identify patients at risk of
+presence of AP at ﬁnal pathology [8], developing BCR [9,10], and subsequent metastasis [9 11]. These have included pre-operative tools,
+such as Prostate Cancer Risk Assessment (CAPRA) score, which was
+used to predict AP, risk of BCR and metastasis, and prostate cancerspeciﬁc survival [10]; and post-operative tools like Post-surgery
+Prostate Cancer Risk Assessment (CAPRA-S) score, which was developed to predict risk of BCR and metastasis after RP [9]. These assessments integrate factors, such as prostate speciﬁc antigen (PSA), GG,
+surgical margin (SM) status, extracapsular extension (EPE), seminal
+vesicle invasion (SVI), and lymph node involvement (LNI), which
+have been previously shown to be signiﬁcantly associated with risk
+of BCR [9]. However, these tools based on clinicopathological features
+failed to account for tumor molecular heterogeneity and their performance varies between different cohorts. In the last decade, there has
+been heightened interest in exploring the utility of different genomic
+
+signatures in predicting oncological outcomes after RP; the most utilized test in the real world practice is Decipher which has been
+shown to correlate with increased cumulative incidence of BCR,
+metastasis and PCa-speciﬁc mortality [12].
+Pre-operative multi-parametric magnetic resonance imaging
+(mpMRI) has been utilized to help in PCa diagnosis [13], planning for
+surgery [14] and to predict the presence of AP, e.g. SVI [15] and EPE
+[16]. Recently, mpMRI radiomic derived features have shown to capture of sub-visual texture patterns for quantitative characterization
+of tumors phenotypes, and help in PCa risk stratiﬁcation [17 20].
+Integrating pre-operative mpMRI derived radiomic parameters with
+clinicopathologic parameters may allow for even better prognostication of AP and PCa speciﬁc outcome.
+In this study, we sought to develop and evaluate a radiomic risk
+score (RadS) derived from bi-parametric MRI (bpMRI), including T2weighted (T2WI) and Diffusion Weighted Imaging (DWI), for prediction of biochemical recurrence free survival (bRFS) and AP. Additionally, we also constructed a novel nomogram, RadClip, by integrating
+RadS, pre-operative prostate-speciﬁc antigen (PSA) and biopsy GG.
+RadClip was compared against the Decipher test, and the pre-operative CAPRA and post-operative CAPRA-S nomograms for bRFS and AP
+prediction on a multi-site validation set.
+2. Materials and methods
+2.1. Ethics statement
+This retrospective study was approved by the Case Western
+Reserve University Institutional Review Board reviews (IRB) and was
+compliant with the Health Insurance Portability and Accountability
+Act (HIPAA); de-identiﬁed data were used, and no protected health
+information was needed. The need for an informed consent from all
+patients was waived by the IRB.
+2.2. Patient selection
+A total of 408 PCa patients from four institutions who had undergone pre-operative 3 Tesla (3T) prostate mpMRI between 2009 and
+2017 were initially identiﬁed. Patients who met the following criteria
+were selected: patients who had (1) undergone RP after the MRI;
+(2) no history of neoadjuvant or adjuvant therapy; (3) images of adequate quality; and (4) and follow up information which includes
+postoperative serum PSA measurements (Fig. 1). Patients were
+excluded if they (1) were without T2WI or Apparent Diffusion Coefﬁcient (ADC) maps; (2) were of sub-optimal image quality, e.g. ADC
+map distortion; (3) received radiation therapy (RT) as the deﬁnitive
+treatment, due to the difference in deﬁnition of BCR between RP and
+RT [2 4]; (4) were with PSA persistence; or (5) received additional
+therapies before RP.
+A total of 198 patients that met the above eligibility criteria with a
+median follow-up of 35 months were identiﬁed, of these 106 men
+also underwent the Decipher test on PCa tissue sampled from the
+corresponding surgical specimen. (Table 1) 71 patients from a single
+site comprised the training set (D1), the remaining patients comprised the independent test set (D2, N=127).
+BCR was deﬁned as 2 consecutive serum PSA > 0.2 ng/mL; bRFS
+was deﬁned as the interval between the date of RP and the date of
+BCR [21]. Patients who were still alive without BCR at the last
+reported follow-up or the date of additional therapy applied were
+labeled as censored. AP was deﬁned as the presence of SVI, EPE or LNI
+on the surgical specimen.
+2.3. MRI Protocol and prostate cancer delineations
+All patients were imaged on 3T MRI scanners with either a surface
+pelvic phased-array coil (PPAC) or an endorectal coil (ERC). All studies
+
+L. Li et al. / EBioMedicine 63 (2021) 103163
+
+3
+
+Fig. 1. Flowchart of patient selection from four institutions. RT = radiation therapy; RP = radical prostatectomy; BCR = biochemical recurrence; mpMRI = multi-parametric magnetic
+resonance imaging.
+
+included axial turbo spin-echo T2WI and axial DWI with ADC maps at
+minimum. (Table 2) The mpMRI scans were reviewed and PCa
+regions were delineated on T2WI and ADC maps using the 3D Slicer
+software [22] by experienced radiologists. (A.S.P, 10 years of experience; V.C.O, 4 years of experience, S.H.T, 7 years of experience; and B.
+M 2 years of experience) The PCa delineations on MRI were made
+either by referring to their corresponding RP specimen (N = 56), or
+biopsy and pathology reports when RP specimens were not available
+(N = 142). Only the index lesions, deﬁned as tumor of highest GG
+from each patient were included for radiomic analysis.
+2.4. MRI pre-processing and radiomic analysis
+Intensity drift artifacts across different MRI acquisitions cause
+T2WI to lack in tissue-speciﬁc meaning. Therefore, a nonparametric
+intensity standardization method [23] was used to align T2WI intensity distributions. In addition, bias-ﬁeld artifacts introduced by the
+endorectal coil were corrected using a previously published method
+in which the estimated bias ﬁeld is subtracted from the acquired
+image data [24]. Both T2WI and ADC maps were resampled to the
+same spatial resolution in the axial plane (0.5 £ 0.5mm). After preprocessing, 200 radiomic feature, including ﬁrst and second order
+statistics, Gabor [25], Laws [26], Haralick [27] and CoLlAGe features
+[28], were extracted on a per-voxel basis within PCa lesion regions
+on both T2WI and ADC maps. These features characterize the underlying texture, quantify heterogeneity on imaging, and have previously been shown to be promising in PCa characterization [17,29,30].
+Statistics including mean, standard deviation, skewness, and kurtosis
+were calculated for each voxel-wise radiomic feature to characterize
+its distribution within each PCa lesion region.
+2.5. Statistics
+Feature selection and stability assessment. Highly correlated
+(Pearson’s correlation coefﬁcient (R) > 0.9) radiomic features were
+ﬁrst eliminated and unstable radiomic features were further
+excluded using test-retest scans from the Quantitative Imaging Network (QIN) [31]. This dataset involved test-retest 3T mpMRI scans of
+15 subjects obtained over a period of 2 weeks using the same scanner
+
+with PCa lesions annotated separately on each scan [31]. The rationale behind using these QIN cases was that stable radiomic features
+should remain relatively consistent across the test-retest scans of the
+same patient. Consequently, we only included stable radiomic features which are identiﬁed as those without signiﬁcant difference (p <
+.05, Wilcoxon signed-rank test) between the test-retest scans. Minimum Redundancy Maximum Relevance (mRMR) [32] feature selection with multivariable Cox-Proportional Hazards (CPH) model was
+employed to identify the set of radiomic features and corresponding
+CPH model that produced highest C-index for bRFS prediction on D1.
+The top 5 most frequently selected radiomic features across multiple
+iterations of 5-fold and 10-run cross-validation were employed to
+construct the radiomic model producing a radiomic risk score (RadS)
+to estimate bRFS. Moreover, a radiomic-clinicopathologic nomogram
+(RadClip), integrating RadS and pre-operative PSA and biopsy GG,
+was constructed based on the multivariable CPH model for 3-year
+bRFS prediction. (Fig. 2) RadClip and RadS were both constructed
+using the rms packages in R software version 3.6.
+Validation. RadS was then evaluated on D2. Both the univariable
+and multivariable CPH models were ﬁtted with RadS and clinicopathologic parameters, including biopsy GG, Prostate Imaging-Reporting
+and Data System version 2 (PI-RADS v2) score [33], age, pre-operative
+PSA, and clinical stage (cT, T2 or T3), to evaluate the role of radiomic
+features in the prediction of bRFS after RP. A head-to-head comparison between RadClip, Decipher, CAPRA, and post-surgical CAPRA-S
+score was conducted on subgroups of patients in D2 for bRFS prediction, who either underwent Decipher test (N = 106) or had sufﬁcient
+information to calculate the CAPRA (N =106) or CAPRA-S (N = 121)
+scores, in terms of concordance index (C-index) and Kaplan-Meier
+curves. Both Decipher risk score, ranging 0-1, and Decipher risk
+groups (low risk group with Decipher risk score < 0.4, intermediate
+0.4-0.6, high > 0.6) [12] were included for comparison. Hazard ratios
+(HRs) of the multivariable CPH model indicate the inﬂuence of corresponding predictors. Wald test was applied and P values under .05
+were considered to be statistically signiﬁcant. Decision curve analysis
+was adopted to calculate the net beneﬁt for RadClip, CAPRA score
+and CAPRA-S score in comparison to default strategies of treating all
+or no patients [34]. Area under receiver operating characteristic curve
+(AUC) was used to evaluate association between AP and pre-
+
+4
+
+L. Li et al. / EBioMedicine 63 (2021) 103163
+Table 1
+Demographic and disease characteristics of all 198 study patients.
+Dataset
+
+D1Training
+
+Cohort
+
+CC
+
+MS
+
+UP
+
+UH
+
+DE
+
+# patients
+Median age, (range)
+Mean pretreatment PSA § SD, ng/mL (range)
+Biopsy GG, n/# patients (%)
+1
+2
+3
+4
+5
+Pathologic GG, n/# patients (%)
+1
+2
+3
+4
+5
+NA
+PI-RADS v2, n/# lesions (%)
+1
+2
+3
+4
+5
+NA
+Decipher risk categories, n/# patients (%)
+Low
+Intermediate
+High
+NA
+CAPRA, n/# patients (%)
+Low
+Intermediate
+High
+NA
+CAPRA-S, n/# patients (%)
+Low
+Intermediate
+High
+NA
+BCR n/# patients (%)
+BCR+
+BCRBCR+ median follow-up / mon.
+BCR- median follow-up / mon.
+SVI, n/# patients (%)
+Yes
+No
+Not determined
+EPE, n/# patients (%)
+Yes
+No
+Not determined
+LNI, n/# patients (%)
+Yes
+No
+Not determined
+PSM, n/# patients (%)
+Yes
+No
+Not determined
+cT, n/# patients (%)
+T1
+T2
+T3
+NA
+
+71
+59 (47-79)
+10.0 § 10.9 (1 - 53.8)
+
+31
+63 (48-73)
+8.8 § 5.0 (3.7 - 22.5)
+
+20
+64 (49-73)
+6.0 § 1.6 (4.2 - 8.9)
+
+20
+61 (47-86)
+10.6 § 18.5 (1.8 - 88.3)
+
+56
+64 (42-76)
+9.0 §12.1 (1.2-69.4)
+
+15/71 (21.13)
+20/71 (28.17)
+8/71 (11.27)
+10/71 (14.08)
+18/71 (25.35)
+
+0/31 (0)
+15/31 (48.39)
+9/31(29.03)
+2/31 (6.45)
+5/31 (16.13)
+
+0/20 (0)
+14/20 (70)
+4/20 (20)
+1/20 (5)
+1/20 (5)
+
+3/20 (15)
+6/20 (30)
+5/20 (25)
+4/20 (20)
+2/20 (10)
+
+7/56 (12.50)
+27/56 (48.21)
+13/56 (23.21)
+3/56 (5.36)
+6/56 (10.71)
+
+6/71 (8.45)
+22/71 (30.99)
+13/71 (18.31)
+7/71 (9.86)
+18/71 (25.35)
+5/71 (7.04)
+
+0 /31 (0)
+15/31 (48.39)
+13/31 (41.94)
+1 /31 (3.23)
+2 /31 (6.45)
+
+0/20 (0)
+13/20 (65)
+5/20 (25)
+1/20 (5)
+1/20 (5)
+
+3/20 (15)
+8/20 (40)
+4/20 (20)
+2/20 (10)
+3/20 (15)
+
+4/56 (7.14)
+24/56 (42.86)
+15/56 (26.79)
+3/56 (5.36)
+10/56 (17.86)
+
+0/71 (0)
+10/71(14.08)
+6/71(8.45)
+20/71(28.17)
+34/71(47.89)
+1/71(1.41)
+
+0/31
+0/31
+1/31 (3.23)
+17/31 (54.84)
+13/31 (41.94)
+
+0/20
+0/ 20
+6/20 (30)
+8/20 (40)
+6/20 (30)
+
+0/20 (00)
+2/20 (10)
+2/20 (10)
+6/20 (30)
+10/20 (50)
+
+1/56 (1.79)
+8/56 (14.29)
+3/56 (5.36)
+10/56 (17.86)
+34/56 (60.71)
+
+NA
+NA
+NA
+NA
+
+16/31 (51.61)
+8/31 (25.81)
+7/31 (22.58)
+0/31 (0)
+
+6/20 (30)
+8/20 (40)
+5/20 (25)
+1/20 (5)
+
+NA
+NA
+NA
+NA
+
+23/56 (41.07)
+5/56 (8.93)
+28/56 (50)
+0/56 (0)
+
+NA
+NA
+NA
+NA
+
+4/31 (12.90)
+17/31 (54.84)
+9/31 (29.03)
+1/31 (3.23)
+
+NA
+NA
+NA
+NA
+
+4/20 (20)
+9/20 (45)
+7/20 (35)
+0/20 (0)
+
+4/56 (7.14)
+38/56 (67.86)
+14/56 (25.00)
+0/56 (0)
+
+NA
+NA
+NA
+NA
+
+11/31 (35.48)
+16/31 (51.61)
+4/31 (12.90)
+0/31 (0)
+
+NA
+NA
+NA
+NA
+
+4/20 (20)
+10/20 (50)
+5/20 (25)
+1/20 (5)
+
+16/56 (28.57)
+17/56 (30.36)
+20/56 (35.71)
+3/56 (5.36)
+
+27/71 (38.03)
+44/71 (61.97)
+11.1
+64.8
+
+6/31 (19.35)
+25/31 (80.65)
+2.6
+20.6
+
+4/20 (20)
+16/20 (80)
+12.5
+25
+
+8/20 (40)
+12/20 (60)
+8.5
+33.5
+
+4/56 (7.14)
+52/56 (92.86)
+13.2
+27.9
+
+24/71 (33.80)
+42/71 (59.15)
+5/71 (7.04)
+
+4/31 (12.90)
+27/31 (87.09)
+0/31 (0)
+
+2/20 (10)
+18/20 (90)
+0/20 (0)
+
+4/20 (20)
+16/20 (80)
+0/20 (0)
+
+16/67 (23.88)
+51/67 (76.12)
+0/67 (0)
+
+33/71 (46.48)
+30/71 (42.25)
+8/71 (11.27)
+
+10/31 (32.26)
+21/31 (67.74)
+0/31 (0)
+
+10/20 (50)
+10/20 (50)
+0/20 (0)
+
+8/20 (40)
+12/20 (60)
+0/20 (0)
+
+42/67 (62.69)
+25/67 (37.31)
+0/67 (0)
+
+12/71 (16.90)
+41/71 (57.75)
+18/71 (25.35)
+
+3/31 (9.68)
+28/31 (90.32)
+0/31 (0)
+
+NA
+NA
+NA
+
+1/20 (5)
+18/20 (90)
+1/20 (5)
+
+20/67 (29.85)
+42/67 (62.69)
+5/67 (7.46)
+
+NA
+NA
+NA
+
+1/31 (3.23)
+30/31 (96.77)
+0/31 (0)
+
+19/20 (95)
+0/20 (0)
+1/20 (5)
+
+6/20 (30)
+14/20 (70)
+0/20 (0)
+
+33/67 (49.25)
+34/67 (50.75)
+0/67 (0)
+
+NA
+NA
+NA
+0 (0)
+
+15/31 (48.39)
+14/31 (45.16)
+1/31(3.23)
+1/31 (3.23)
+
+18/20 (90)
+1/20 (5)
+1/20 (5)
+0 (0)
+
+8/20 (40)
+9/20 (45)
+3/20 (15)
+0 (0)
+
+53/67 (79.10)
+14/67 (20.90)
+0 (0)
+0 (0)
+
+D2Validation
+
+PSA = prostate-speciﬁc antigen, GG = Grade Group, PI-RADS v2 = Prostate Imaging Reporting and Data System version 2, BCR = Biochemical Recurrence, SVI = Seminal Vesicle
+Invasion, EPE = Extra Prostatic Extension, LNI = Lymph Node Invasion, PSM = Positive Surgical Margin, cT = clinical stage, NA = Not Available.
+
+operative prognostic models RadClip, CAPRA, and Decipher on D2. We
+also evaluated the association between RadClip and the presence of
+SVI, EPE or LNI separately, and then compared RadClip with CAPRA,
+CAPRA-S, and Decipher in terms of AUC.
+
+2.6. Role of the funding source
+The sponsors of this study had no role in the research design, data
+collection, data analysis, data interpretation, and paper writing. The
+
+L. Li et al. / EBioMedicine 63 (2021) 103163
+
+5
+
+Table 2
+MRI scan parameters.
+Parameter
+
+Institution 1
+Scanner 1
+
+Manufacturer
+Model
+Coils
+T2WI
+TR/TE
+Reconstruction voxel size (mm3)
+Acquisition time (min)
+DWI
+TR/TE
+Reconstruction voxel size (mm3)
+b values (s/mm2)
+Acquisition time (min)
+
+Institution 2
+Scanner 1
+
+Institution 3
+Scanner 1
+
+Institution 4
+Scanner 1
+
+Philips Medical Systems, Siemens Healthcare,
+Best, Netherlands
+Erlangen, Germany
+3T Achieva
+3T Skyra
+ERC
+PPAC
+
+Siemens Healthcare,
+Erlangen, Germany
+3T Skyra
+PPAC
+
+Siemens Healthcare,
+Erlangen, Germany
+3T Skyra
+ERC
+
+Siemens Healthcare,
+Erlangen, Germany
+3T Skyra
+PPAC
+
+3802 5151/105 115
+0.3 £ 0.3 £ 3.0
+5.36
+
+3730/121
+0.5 £ 0.5 £ 3.0
+2.53
+
+5610/121
+0.3 £ 0.3 £ 3.0
+2.54
+
+3000-6000/ 80-120
+0.3 £ 0.3 £ 3.0
+4-5
+
+7200/96
+0.6 £ 0.6 £ 3.0
+2.25
+
+3571 4880/50 74
+1.4 £ 1.4 £ 3.0
+0, 500, 1000, 1500, 2000
+5.25
+
+4700/86
+1.6 £ 1.6 £ 3.0
+0, 400, 900, 1500
+5.07
+
+8700/72
+2.2 £ 2.2 £ 3
+50,1000,1600,2000
+2.57
+
+1.4 £ 1.4 £ 3.0
+0, 1000, 1400
+3-6
+
+7900/88
+1.2 £ 1.2 £ 3.0
+50, 600, 1000, 1400
+2.34
+
+Scanner 2
+
+TR = repetition time, TE = echo time, T2WI = T2-weighted imaging, DWI = diffusion-weighted imaging, PPAC = pelvic phased-array coil, ERC = endorectal coil.
+
+Fig. 2. overall workﬂow and pipeline. T2WI = T2-weighted magnetic resonance imaging; ADC = apparent diffusion coefﬁcient.
+
+6
+
+L. Li et al. / EBioMedicine 63 (2021) 103163
+
+corresponding authors had full access to all data obtained from this
+study and had ﬁnal responsibility for the decision to submit for publication.
+
+Table 3
+Biochemical-recurrence-associated Radiomic features.
+Radiomic feature
+
+Radiomic feature description
+
+3. Results
+
+T2WI Laws feature
+T2WI Laws feature
+
+3.1. Ability of radiomic model to predict bRFS
+
+T2WI intensity range
+
+RadS was built with 5 radiomic features selected within D1.
+(Table 3 and Fig. 3) RadS on D2 resulted in an HR = 7.01 (95% CI, 1.21
+40.68, p < .05) on multivariable analysis. RadS was signiﬁcantly
+associated with bRFS and found to be prognostic independent of
+other pre-operative clinicopathologic parameters, including biopsy
+GG, PI-RADS v2, age, pre-operative PSA, and cT, to predict bRFS.
+(Table 4).
+
+T2WI Haralick Information measure
+1
+ADC Laws feature
+
+Wave texture distribution kurtosis
+Wave-ripple texture distribution
+kurtosis
+Local intensity range distribution
+kurtosis
+Intensity heterogeneity distribution
+kurtosis
+Wave and edge texture distribution
+kurtosis
+
+3.2. Ability of RadClip to predict bRFS and head-to-head comparisons
+The prognostic performance of RadClip was validated on D2,
+resulting in a HR of 1.9 (95% CI, 1.4-2.7, p < .05) and C-index of 0.77
+(95% CI, 0.65-0.88). For the patients in D2, neither the Decipher risk
+score (C-index 0.51, 95% CI 0.33-0.69, N=106) nor associated risk
+groups (C-index 0.5, 95% CI 0.35-0.65, N=106) showed any signiﬁcant
+
+T2WI = T2-weighted imaging, ADC = apparent diffusion coefﬁcient.
+
+association with bRFS in univariable analysis. (Table 5) RadClip
+achieved a higher C-index than CAPRA (0.77 vs. 0.68, N=106) and a
+similar C-index to CAPRA-S (0.77 vs. 0.75, N=121). (Table 3) In addition, RadClip illustrated signiﬁcant association with bRFS independent of CAPRA, CAPRA-S and Decipher in the multivariable analysis.
+(Table 5) Furthermore, RadClip yielded a similar net beneﬁt compared to CAPRA and CAPRA-S across decision threshold probabilities
+ranging from 20-30% [2,3,21] (Fig. 4)
+
+Fig. 3. BCR-associated Radiomic features. (a) and (c) are the bpMRI of a 59-year-old patient with BCR identiﬁed at 41-month follow-up. The patients had pathologic Gleason Grade
+Group = 2, PIRADS v2 = 2, Decipher risk score = 0.52, CAPRA score = 3, CAPRA-S score = 2, no adverse pathology identiﬁed. (b) and (d) are the bpMRI of a 62-year-old patient with no
+BCR identiﬁed at 45-month follow-up. The patient had pathologic Gleason Grade Group = 2, PIRADS v2 = 4, Decipher risk score = 0.63, CAPRA score = 3, CAPRA-S score = 4, no
+adverse pathology identiﬁed. (a,b) T2WI Haralick information measures; (c,d) ADC Laws feature capturing wave-edge pattern. BCR = biochemical recurrence; bpMRI = bi-parametric
+magnetic resonance imaging; PIRADS v2 = Prostate Imaging-Reporting and Data System version 2; CAPRA = Prostate Cancer Risk Assessment; CAPRA-S = Post-surgery Prostate Cancer Risk Assessment; T2WI = T2-weighted magnetic resonance imaging; ADC = apparent diffusion coefﬁcient.
+
+L. Li et al. / EBioMedicine 63 (2021) 103163
+Table 4
+Multivariable Biochemical-Recurrence-Free Survival analysis (N = 127, 22 BCR +)
+Parameter name
+
+Multivariable
+HR (95% CI)
+
+Multivariable
+C-index (95% CI)
+
+Multivariable
+p value
+
+Biopsy GG
+PI-RADS
+PSA
+Age
+Clinical Stage
+RadS
+
+1.67 (1.09 -2.57)
+0.99 (0.53-1.84)
+1.04 (1.00-1.08)
+0.92 (0.85 0.98)
+1.92 (0.91 4..04)
+7.01 (1.21 40.68)
+
+0.79 (0.69-0.88)
+
+0.02*
+0.97
+0.071
+0.013*
+0.087
+0.03*
+
+Table 5
+Head to head comparison between RadClip, CAPRA and Decipher in BCR
+prediction.
+RadClip, RadS and CAPRA (N = 106,18 BCR+)
+Model
+HR (95% CI)
+C-index (95% CI)
+
+RadClip
+CAPRA
+
+1.9 (1.4-2.7)
+1.4 (1.1-1.9)
+
+0.77 (0.65-0.88)
+0.68 (0.57-0.8)
+
+Univariable
+p-value
+
+Multivariable
+p-value
+
+<0.001*
+0.007*
+
+0.012*
+0.336
+
+RadClip, RadS, and CAPRA-S (N = 121, 21 BCR+)
+RadClip
+CAPRA-S
+
+2 (1.5-2.8)
+1.4 (1.2-1.6)
+
+0.77 (0.66-0.87)
+0.75 (0.65-0.85)
+
+<0.001*
+<0.001*
+
+0.011*
+0.046*
+
+RadClip and Decipher (N = 106, 14 BCR+)
+RadClip
+Decipher score
+Decipher risk group
+
+1.6 (1.1-2.4)
+2.5 (0.17-37)
+1.1 (0.61-2)
+
+0.73 (0.59-0.87)
+0.51 (0.33-0.69)
+0.5 (0.35-0.65)
+
+0.033*
+0.51
+0.74
+
+0.041*
+0.73
+0.77
+
+3.3. Association between pre-operative prognostic models and AP
+We evaluated the association between RadClip and AP among
+patients from the validation set with EPE, SVI, and LNI speciﬁc information. RadClip yielded an AUC = 0.71 (95% CI, 0.62-0.81, p < .05) in
+predicting AP, compared to CAPRA, AUC = 0.69 (95% CI, 0.59-0.79, p <
+.05), and Decipher, AUC = 0.66 (95% CI, 0.57-0.77, p < .05), on D2. In
+addition, RadClip had a higher AUC compared with CAPRA and Decipher in predicting EPE, SVI and LNI (Table 6).
+4. Discussion
+The ability to predict prognosis of prostate cancer (PCa) patients
+using pre-operative imaging and clinicopathologic parameters may
+allow for identiﬁcation of patients who are more likely to have
+adverse pathologic factors, such as extracapsular extension (EPE),
+seminal vesicle invasion (SVI), and lymph node involvement (LNI).
+This could allow for identifying men who are not candidates for
+active surveillance (AS), but rather candidates for more aggressive
+treatments. Additionally, since the beneﬁt of adjuvant radiation therapy is subject to debate [35], pre-operatively identifying patients
+with low risk of developing BCR after surgery could give clinicians
+more conﬁdence in deferring additional treatments in these men. In
+this study, we developed a novel radiomic risk score, RadS, derived
+from computerized texture features from pre-surgical bi-parametric
+MRI that was shown to be independently prognostic of biochemical
+recurrence free survival (bRFS). Additionally, we presented RadClip, a
+pre-operative nomogram that combines radiomic features with clinicopathologic parameters (including biopsy Gleason Grade Group and
+pre-surgical PSA) to predict bRFS, as well as AP.
+Results from our study indicate that Haralick features extracted
+from pre-operative T2WI and Laws features derived from both T2WI
+and ADC map showed signiﬁcant differences between patients with
+and without BCR. Haralick features [27] capture spatial intensity
+
+7
+
+based heterogeneity and Laws [26] features capture edge and wave
+texture patterns on MRI. Haralick features of PCa on T2WI have been
+previously shown to be associated with biochemical recurrence
+(BCR) [17,29], men who had BCR following surgery tended to have a
+higher expression of Haralick features within the tumor on pre-operative T2WI versus those who did not. Additionally, Laws features
+derived from prostate bpMRI lesion regions have also been shown to
+be associated with PCa aggressiveness, in particular with RP Gleason
+grade [30]. We observed that patients with poor prognosis tended to
+have higher expression of T2WI Haralick feature and edge and wave
+texture within tumor regions on ADC maps, suggesting a higher
+degree of morphologic disease speciﬁc heterogeneity. (Fig. 3 and
+Table 3)
+In our study, the performance of both CAPRA and CAPRA-S for the
+task of bRFS prediction was found to be consistent to results reported
+in previous studies [10]. RadClip, as a pre-operative prognostic nomogram was found to outperform CAPRA score and achieve similar performance as the post-surgical CAPRA-S score in a head-to-head
+comparison for bRFS prediction. These results illustrated the potential of RadClip to predict prognosis pre-operatively which will allow
+for identiﬁcation of patients who could potentially beneﬁt from
+receiving neo-adjuvant therapy. In addition, RadClip also showed
+strong association with AP, suggesting its possible utility in pre-operative identiﬁcation of men with PCa who should likely be excluded
+from consideration for active surveillance.
+While the Decipher test has been previously validated in its ability
+to predict risk of metastasis and PCa speciﬁc mortality [12,36], in our
+study the test did not show a signiﬁcant association with bRFS. This
+may have been because the Decipher test was initially validated to
+predict risk of metastasis and not BCR per se [11]. Interestingly, a previous study [36] also appeared to corroborate our ﬁndings, suggesting that the Decipher risk score did not have a strong association
+with post-surgical BCR. Decipher was shown to have signiﬁcant association with AP in our validation cohort. However, note that in this
+study, Decipher was performed post-surgically on the resected specimen, unlike RadClip which was assessed pre-operatively. Although a
+previous study has suggested that Decipher estimated on biopsy tissue was similar to the corresponding score estimated on the surgical
+specimens [37], the biopsy sampling error may still be a concern indicating by another study as no correlation between Decipher score
+estimated from index lesions and benign regions [38]. Unlike Decipher, RadClip is also completely tissue non-destructive and is not
+constrained by the limitations of biopsy sampling errors. Also, since
+RadClip only requires diagnostic mpMRI, the test does not consume
+tissue like molecular tests like Decipher. We acknowledge the fact
+that post-surgery Decipher test is usually reserved for patients with
+T2 and positive surgical margins, T3a/b, PSA persistence, and in
+selected cases of BCR; therefore, the comparison between RadClip
+and Decipher may seem counter-intuitive but it reﬂects over-utilization of Decipher test in this population as 45/106 patients had low
+risk score.
+The application of assessing the association between mpMRI
+derived parameters, e.g. PI-RADS v2 score or lesion volume, with
+BCR, PCa aggressiveness and molecular tests like Decipher is not new
+[39,40]. Jambor et. al. illustrated that combing clinicopathologic
+parameters with mpMRI was comparable in prediction of BCR as a
+combination of Decipher and clinicopathologic parameters [40]. This
+study was however limited in its sample size, single institutional
+design and the fact that PI-RADS is known to be subject to interreader variability [41]. Similarly, Shiradkar et. al. illustrated using
+bpMRI derived radiomic features could be prognostic of BCR [17].
+However, this study too was limited to scans from a single site in
+their validation set. Our study differed from previous studies
+[17 20,29] in a few different ways. Firstly, instead of investigating
+the correlation between radiomic features and Decipher risk categories or pathologic Gleason Grade [18], we directly built a nomogram
+
+8
+
+L. Li et al. / EBioMedicine 63 (2021) 103163
+
+Fig. 4. Biochemical-recurrence-free survival analysis. (a) Kaplan-Meier survival analysis of RadClip (N = 127) with the cut-off point at 70% 3-year Biochemical-recurrence-free survival. (b) Kaplan-Meier survival analysis of Decipher score (N = 106). Decipher score > 0.6 is deﬁned as the high risk category. (c) Kaplan-Meier survival analysis of CAPRA score
+(N = 106). CAPRA score  6 is deﬁned as the high risk. (d) Kaplan-Meier survival analysis of CAPRA-S score (N = 121). CAPRA-S score  6 is deﬁned as the high risk. (e) 3-year biochemical recurrence-free radiomic-clinicopathologic nomogram (RadClip) built with radiomic risk score (RadS), biopsy Grade Group (bGG), pre-operative prostate-speciﬁc antigen
+(PSA). (f) Decision curve showing net beneﬁt for carrying out adjuvant therapy in prostate cancer patients. It has been shown that 20-30% patients will develop BCR after RP within
+10 years. Black dash line represents RadNom showing increment of the net beneﬁt compared CAPRA score (red) and CAPRA-S score (green).
+
+to predict clinical endpoints, e.g. BCR and AP. In addition, unlike previous approaches that have attempted to directly train radiomic classiﬁers against binary outcome (e.g. presence or absence of BCR)
+[17,29,40], our approach employed a Cox proportional hazards
+approach to build an imaging based prognostic model accounting for
+
+time to BCR as also censoring information introduced by the variance
+of follow-up time among patients. Moreover, this was also one of the
+very few studies we are aware of to validate an MRI based PCa prognostic tool in a multi-institutional setting [19,29,40]. The ﬁndings of
+RadClip on scans from 4 institutions, suggest that the approach is
+
+Table 6
+Head to head comparison between RadClip, CAPRA and Decipher in Adverse Pathology prediction (N = 127).
+Model
+
+EPE, AUC (95% CI)N = 60, EPE +
+
+SVI, AUC (95% CI)N = 21, SVI +
+
+LNI, AUC (95% CI)N = 19, LNI +
+
+Adverse Pathology, AUC (95% CI)N = 66 AP +
+
+RadClip
+CAPRA
+Decipher risk score
+
+0.7 (0.61-0.8)
+0.69 (0.59-0.79)
+0.68 (0.58-0.78)
+
+0.82 (0.74-0.91)
+0.76 (0.65-0.86)
+0.77 (0.65-0.9)
+
+0.77 (0.67-0.86)
+0.74 (0.62-0.85)
+0.73 (0.59-0.87)
+
+0.71 (0.62-0.81)
+0.69 (0.59-0.79)
+0.66 (0.56-0.77)
+
+L. Li et al. / EBioMedicine 63 (2021) 103163
+
+9
+
+relatively robust and resilient to scanner and site-speciﬁc MRI variations.
+We acknowledge however that our study did have its limitations.
+First, implicit bias may exist due to the retrospective nature of the
+study; however, the multi-institutional validation suggests the
+robustness of RadClip. In addition, even though 198 patients were
+included in this study, this number is actually larger compared to
+other recent related studies [17,18,40]. However, we acknowledge
+that prior to clinical deployment, the approach needs additional retrospective and potentially prospective clinical trial validation in the
+future to further conﬁrm the generalizability of our ﬁndings. Second,
+this study employed BCR as a surrogate endpoint for metastasis
+because of insufﬁcient follow-up time after RP, as opposed to metastasis. Furthermore, we demonstrated that the nomogram was prognostic and not predictive of added beneﬁt of neoadjuvant or adjuvant
+therapy, though that it will certainly be included for our future work.
+Also, an automated lesion detection and segmentation module on the
+MRI scans could be implemented in consort with RadS and RadClip in
+future.
+In spite of these limitations, our study suggests that with additional independent multi-site validation, these radiomic features
+could potentially be used for pre-operative risk stratiﬁcation in
+patients with PCa to allow for more effective treatment management.
+
+Merit Review Award IBX004121A from the United States Department of Veterans Affairs Biomedical Laboratory Research and Development Servicethe Ofﬁce of the Assistant Secretary of Defense for
+Health Affairs, through the Breast Cancer Research Program
+(W81XWH-19-1-0668), the Prostate Cancer Research Program
+(W81XWH-15-1-0558, W81XWH-20-1-0851) the Lung Cancer
+Research Program (W81XWH-18-1-0440, W81XWH-20-1-0595), the
+Peer Reviewed Cancer Research Program (W81XWH-18-1-0404), the
+Kidney Precision Medicine Project (KPMP) Glue Grantthe Ohio Third
+Frontier Technology Validation Fundthe Clinical and Translational
+Science Collaborative of Cleveland (UL1TR0002548) from the
+National Center for Advancing Translational Sciences (NCATS) component of the National Institutes of Health and NIH roadmap for
+Medical Research. The Wallace H. Coulter Foundation Program in
+the Department of Biomedical Engineering at Case Western Reserve
+University. The DOD Prostate Cancer Idea Development Award:
+W81XWH-18-1-0524. Verena C Obmann received funding from the
+Swiss National Science Foundation, Early Postdoc Mobility fellowship
+grant, P2SKP3_178132.
+The content is solely the responsibility of the authors and does not
+necessarily represent the ofﬁcial views of the National Institutes of
+Health, the U.S. Department of Veterans Affairs, the Department of
+Defense, or the United States Government.
+
+Conclusion
+
+References
+
+In this study, we developed a prognostic nomogram, RadClip,
+integrating radiomic features derived from pre-operative biparametric MRI, biopsy GG and pre-operative PSA to predict biochemical recurrence free survival and adverse pathology in prostate
+cancer patients undergoing prostatectomy. RadClip outperformed
+Decipher risk score and CAPRA score on a limited hold-out validation
+set.
+Declaration of Competing Interests
+Dr. Madabhushi is an equity holder in Elucid Bioimaging and in
+Inspirata Inc. In addition, he has served as a scientiﬁc advisory board
+member for Inspirata Inc, Astrazeneca, Bristol Meyers-Squibb and
+Merck. Currently he serves on the advisory board of Aiforia Inc. He
+also has sponsored research agreements with Philips, AstraZeneca
+and Bristol Meyers-Squibb. He has 15 relevant issued patents (USSN:
+10,550,570, USSN: 10,607,112, USSN: 10,004,471 USSN: 10,254,358,
+USSN: 10,398,399, USSN: 10,650,515, USSN: 8,774,479, USSN:
+8,295,575, USSN: 8,442,285, USSN: 9,159,128, USSN: 9,177,104 B2,
+USSN: 9,235,887 USSN: 9,262,583, USSN: 9,483,822, USSN:
+9,767,555) and 1 pending patent (CWRUP139US). His technology has
+been licensed (USSN: 8,442,285; USSN: 8,442,285) to Elucid Bioimaging. He is also involved in a NIH U24 grant with PathCore Inc, and 3
+different R01 grants with Inspirata Inc.
+Data sharing
+The radiomic features generated during the current study with
+analysis code are available in https://github.com/lynli/RadClip.
+Acknowledgements
+Research reported in this publication was supported by the
+National Cancer Institute under award numbers 1U24CA19937401, R01CA202752-01A1, R01CA208236-01A1, R01CA21657901A1, R01CA220581-01A11U01CA239055-01, 1U01CA248226-01,
+1U54CA254566-01; National Heart, Lung and Blood Institute
+1R01HL15127701A1, National Institute for Biomedical Imaging
+and Bioengineering 1R43EB028736-01; National Center for
+Research Resources under award number 1 C06 RR12463-01; VA
+
+[1] Tourinho-Barbosa R, Srougi V, Nunes-Silva I, Baghdadi M, Rembeyo G, Eiffel SS,
+et al. Biochemical recurrence after radical prostatectomy: what does it mean? Int
+Braz J Urol Off J Braz Soc Urol 2018;44(1):14–21.
+[2] Freedland SJ, Humphreys EB, Mangold LA, Eisenberger M, Dorey FJ, Walsh PC,
+et al. Risk of prostate cancer speciﬁc mortality following biochemical recurrence
+after radical prostatectomy. JAMA 2005 Jul 27;294(4):433–9.
+[3] Williams S. Surrogate endpoints in early prostate cancer research. Transl Androl
+Urol 2018 Jun;7(3):472–82.
+[4] Van den Broeck T, van den Bergh RCN, Arﬁ N, Gross T, Moris L, Briers E, et al. Prognostic value of biochemical recurrence following treatment with curative intent
+for prostate cancer: a systematic review. Eur Urol 2019 Jun 1;75(6):967–87.
+[5] Patel HD, Tosoian JJ, Carter HB, Epstein JI. Adverse pathologic ﬁndings for men
+electing immediate radical prostatectomy: deﬁning a favorable intermediate-risk
+group. JAMA Oncol 2018 Jan 1;4(1):89–92.
+[6] Bloom KD, Richie JP, Schultz D, Renshaw A, Saegaert T, D’amico AV. Invasion of
+seminal vesicles by adenocarcinoma of the prostate: PSA outcome determined by
+preoperative and postoperative factors. Urology 2004 Feb 1;63(2):333–6.
+[7] Mikel Hubanks J, Boorjian SA, Frank I, Gettman MT, Houston Thompson R, Rangel
+LJ, et al. The presence of extracapsular extension is associated with an increased
+risk of death from prostate cancer after radical prostatectomy for patients with
+seminal vesicle invasion and negative lymph nodes. Urol Oncol Semin Orig Investig 2014 Jan 1;32(1):26.e1–7.
+[8] Kim HL, Li P, Huang H-C, Deheshi S, Marti T, Knudsen B, et al. Validation of the
+Decipher Test for predicting adverse pathology in candidates for prostate cancer
+active surveillance. Prostate Cancer Prostatic Dis 2019 Sep;22(3):399–405.
+[9] Cooperberg MR, Hilton JF, Carroll PR. The CAPRA-S score. Cancer. 117
+(22):5039 46.
+[10] Brajtbord JS, Leapman MS, Cooperberg MR. The CAPRA Score at 10 years: contemporary perspectives and analysis of supporting studies. Eur Urol 2017 May 1;71
+(5):705–9.
+[11] Erho N, Crisan A, Vergara IA, Mitra AP, Ghadessi M, Buerki C, et al. Discovery and
+validation of a prostate cancer genomic classiﬁer that predicts early metastasis
+following radical prostatectomy. PLOS ONE 2013 Jun 24;8(6):e66855.
+[12] Ross AE, Johnson MH, Youseﬁ K, Davicioni E, Netto GJ, Marchionni L, et al. Tissuebased genomics augments post-prostatectomy risk stratiﬁcation in a natural history cohort of intermediate- and high-risk men. Eur Urol 2016 Jan 1;69(1):157–
+65.
+[13] Ahmed HU, El-Shater Bosaily A, Brown LC, Gabe R, Kaplan R, Parmar MK, et al.
+Diagnostic accuracy of multi-parametric MRI and TRUS biopsy in prostate cancer
+(PROMIS): a paired validating conﬁrmatory study. The Lancet 2017 Feb 25;389
+(10071):815–22.
+[14] Marenco J, Orczyk C, Collins T, Moore C, Emberton M. Role of MRI in planning radical prostatectomy: what is the added value? World J Urol 2019 Jul 1;37(7):1289–
+92.
+[15] Hegde JV, Demanes DJ, Veruttipong D, Raince J, Park S-J, Raman SS, et al. Pretreatment 3T multiparametric MRI staging predicts for biochemical failure in high-risk
+prostate cancer treated with combination high-dose-rate brachytherapy and
+external beam radiotherapy. Brachytherapy 2017 Nov 1;16(6):1106–12.
+[16] Wibmer A, Vargas HA, Donahue TF, Zheng J, Moskowitz C, Eastham J, et al. Diagnosis of extracapsular extension of prostate cancer on prostate mri: impact of second-opinion readings by subspecialized genitourinary oncologic radiologists. Am
+J Roentgenol 2015 Jun 23;205(1):W73–8.
+
+10
+
+L. Li et al. / EBioMedicine 63 (2021) 103163
+
+[17] Shiradkar R, Ghose S, Jambor I, Taimen P, Ettala O, Purysko AS, et al. Radiomic features from pretreatment biparametric MRI predict prostate cancer biochemical
+recurrence: Preliminary ﬁndings. J Magn Reson Imaging 2018;48(6):1626–36.
+[18] Hectors SJ, Cherny M, Yadav KK, Beksaç AT, Thulasidass H, Lewis S, Davicioni E,
+Wang P, Tewari AK, Taouli B. Radiomics features measured with multiparametric
+magnetic resonance imaging predict prostate cancer aggressiveness. The Journal
+of urology 2019 Sep;202(3):498–505.
+res M, Lucia F, Doucet L, Visvikis D, Tissot V, Pradier O, Hatt M,
+[19] Bourbonne V, Vallie
+Schick U. MRI-derived radiomics to guide post-operative management for highrisk prostate cancer. Frontiers in Oncology 2019;9:807.
+[20] Abdollahi H, Moﬁd B, Shiri I, Razzaghdoust A, Saadipoor A, Mahdavi A, et al.
+Machine learning-based radiomic models to predict intensity-modulated radiation therapy response, Gleason score and stage in prostate cancer. Radiol Med
+(Torino) 2019 Jun;124(6):555–67.
+[21] Pound CR, Partin AW, Eisenberger MA, Chan DW, Pearson JD, Walsh PC. natural
+history of progression after PSA elevation following radical prostatectomy. JAMA
+1999 May 5;281(17):1591–7.
+[22] Pieper S, Halle M, Kikinis R. 3D Slicer. In: Proceedings of the 2nd IEEE international symposium on biomedical imaging: nano to macro (IEEE Cat No 04EX821),
+1; 2004. p. 632–5.
+[23] Sled JG, Zijdenbos AP, Evans AC. A nonparametric method for automatic correction of intensity nonuniformity in MRI data. IEEE Trans Med Imaging 1998 Feb;17
+(1):87–97.
+[24] Juntu J, Sijbers J, Van Dyck D, Gielen J. Bias Field Correction for MRI Images. In:
+ ski M, Pucha»a E, Wozniak M, zo»nierek
+_
+Kurzyn
+A, editors. Computer recognition
+systems. Berlin Heidelberg: Springer; 2005. p. 543–51.
+[25] Fogel I, Sagi D. Gabor ﬁlters as texture discriminator. Biol Cybern 1989 Jun 1;61
+(2):103–13.
+[26] Laws KI. Textured image segmentation. University of Southern California Los
+Angeles Image Processing INST; 1980 Jan.
+[27] Haralick RM, Shanmugam K, Dinstein I. Textural features for image classiﬁcation.
+IEEE Trans Syst Man Cybern 1973 Nov;SMC-3(6):610–21.
+[28] Prasanna P, Tiwari P, Madabhushi A. Co-occurrence of local anisotropic gradient
+orientations (CoLlAGe): a new radiomics descriptor. Sci Rep 2016 Nov
+22;6:37241.
+rrez-Carvajal RE, Commandeur F, Mathieu R, Ospina JD,
+[29] Gnep K, Fargeas A, Gutie
+et al. Haralick textural features on T2 -weighted MRI are associated with biochemical recurrence following radiotherapy for peripheral zone prostate cancer. J
+Magn Reson Imaging JMRI 2017;45(1):103–17.
+[30] Penzias G, Singanamalli A, Elliott R, Gollamudi J, Shih N, Feldman M, et al. Identifying the morphologic basis for radiomic features in distinguishing different
+
+Gleason grades of prostate cancer on MRI: Preliminary ﬁndings. PloS One
+2018;13(8):e0200730.
+[31] Fedorov A, Schwier M, Clunie D, Herz C, Pieper S, Kikinis R, et al. An annotated
+test-retest collection of prostate multiparametric MRI. Sci Data 2018 Dec
+4;5:180281.
+[32] Peng Hanchuan, Long Fuhui, Ding C. Feature selection based on mutual information criteria of max-dependency, max-relevance, and min-redundancy. IEEE
+Trans Pattern Anal Mach Intell 2005 Aug;27(8):1226–38.
+[33] Weinreb JC, Barentsz JO, Choyke PL, Cornud F, Haider MA, Macura KJ, et al. PI-rads
+prostate imaging reporting and data system: 2015, version 2. Eur Urol 2016 Jan
+1;69(1):16–40.
+[34] Vickers AJ, van Calster B, Steyerberg EW. A simple, step-by-step guide to interpreting decision curve analysis. Diagn Progn Res 2019 Oct 4;3(1):18.
+[35] Vale CL, Fisher D, Kneebone A, Parker C, Pearse M, Richaud P, Sargos P, Sydes MR,
+Brawley C, Brihoum M, Brown C. Adjuvant or early salvage radiotherapy for the
+treatment of localised and locally advanced prostate cancer: a prospectively
+planned systematic review and meta-analysis of aggregate data. The Lancet 2020
+Sep 28.
+[36] Cooperberg MR, Davicioni E, Crisan A, Jenkins RB, Ghadessi M, Karnes RJ. Combined value of validated clinical and genomic risk stratiﬁcation tools for predicting prostate cancer mortality in a high-risk prostatectomy cohort. Eur Urol 2015
+Feb 1;67(2):326–33.
+[37] Klein EA, Haddad Z, Youseﬁ K, Lam LLC, Wang Q, Choeurng V, et al. Decipher
+genomic classiﬁer measured on prostate biopsy predicts metastasis risk. Urology
+2016 Apr 1;90:148–52.
+[38] Radtke JP, Takhar M, Bonekamp D, Kesch C, Erho N, du Plessis M, et al. transcriptome wide analysis of magnetic resonance imaging-targeted biopsy and matching
+surgical specimens from high-risk prostate cancer patients treated with radical
+prostatectomy: the target must be hit. Eur Urol Focus 2018 Jul 1;4(4):540–6.
+[39] Purysko AS, Magi-Galluzzi C, Mian OY, Sittenfeld S, Davicioni E, du Plessis M,
+Buerki C, Bullen J, Li L, Madabhushi A, Stephenson A. Correlation between MRI
+phenotypes and a genomic classiﬁer of prostate cancer: preliminary ﬁndings.
+European radiology 2019 Sep;29(9):4861–70.
+[40] Jambor I, Falagario U, Ratnani P, Perez IM, Demir K, Merisaari H, et al. Prediction of
+biochemical recurrence in prostate cancer patients who underwent prostatectomy using routine clinical prostate multiparametric MRI and decipher genomic
+score. J Magn Reson Imaging 2020;51(4):1075–85.
+[41] Girometti R, Giannarini G, Greco F, Isola M, Cereser L, Como G, et al. Interreader
+agreement of PI-RADS v. 2 in assessing prostate cancer with multiparametric
+MRI: A study using whole-mount histology as the standard of reference. J Magn
+Reson Imaging 2019;49(2):546–55.
+
+

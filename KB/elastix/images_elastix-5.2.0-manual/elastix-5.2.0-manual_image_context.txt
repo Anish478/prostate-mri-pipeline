@@ -1,0 +1,286 @@
+=== elastix-5.2.0-manual_page1_img1.png ===
+Page: 1
+Size: 500x235
+Context:
+the manual
+Stefan Klein and Marius Staring
+July 18, 2024
+
+
+=== elastix-5.2.0-manual_page15_img1.png ===
+Page: 15
+Size: 256x256
+Context:
+(a) fixed
+(b) moving
+(c) translation
+(d) rigid
+(e) affine
+(f) B-spline
+Figure 2.5: Different transformations. (a) the fixed image, (b) the moving image with a grid overlayed, (c)
+the deformed moving image IM(Tµ(x)) with a translation transformation, (d) a rigid transformation, (e) an
+affine transformation, and (f) a B-spline transformation. The deformed moving image nicely resembles the
+fixed image IF (x) using the B-spline transformation. The overlay grids give an indication of the deformations...
+
+=== elastix-5.2.0-manual_page15_img2.png ===
+Page: 15
+Size: 256x256
+Context:
+(a) fixed
+(b) moving
+(c) translation
+(d) rigid
+(e) affine
+(f) B-spline
+Figure 2.5: Different transformations. (a) the fixed image, (b) the moving image with a grid overlayed, (c)
+the deformed moving image IM(Tµ(x)) with a translation transformation, (d) a rigid transformation, (e) an
+affine transformation, and (f) a B-spline transformation. The deformed moving image nicely resembles the
+fixed image IF (x) using the B-spline transformation. The overlay grids give an indication of the deformations...
+
+=== elastix-5.2.0-manual_page15_img3.png ===
+Page: 15
+Size: 256x256
+Context:
+(a) fixed
+(b) moving
+(c) translation
+(d) rigid
+(e) affine
+(f) B-spline
+Figure 2.5: Different transformations. (a) the fixed image, (b) the moving image with a grid overlayed, (c)
+the deformed moving image IM(Tµ(x)) with a translation transformation, (d) a rigid transformation, (e) an
+affine transformation, and (f) a B-spline transformation. The deformed moving image nicely resembles the
+fixed image IF (x) using the B-spline transformation. The overlay grids give an indication of the deformations...
+
+=== elastix-5.2.0-manual_page15_img4.png ===
+Page: 15
+Size: 256x256
+Context:
+(a) fixed
+(b) moving
+(c) translation
+(d) rigid
+(e) affine
+(f) B-spline
+Figure 2.5: Different transformations. (a) the fixed image, (b) the moving image with a grid overlayed, (c)
+the deformed moving image IM(Tµ(x)) with a translation transformation, (d) a rigid transformation, (e) an
+affine transformation, and (f) a B-spline transformation. The deformed moving image nicely resembles the
+fixed image IF (x) using the B-spline transformation. The overlay grids give an indication of the deformations...
+
+=== elastix-5.2.0-manual_page15_img5.png ===
+Page: 15
+Size: 256x256
+Context:
+(a) fixed
+(b) moving
+(c) translation
+(d) rigid
+(e) affine
+(f) B-spline
+Figure 2.5: Different transformations. (a) the fixed image, (b) the moving image with a grid overlayed, (c)
+the deformed moving image IM(Tµ(x)) with a translation transformation, (d) a rigid transformation, (e) an
+affine transformation, and (f) a B-spline transformation. The deformed moving image nicely resembles the
+fixed image IF (x) using the B-spline transformation. The overlay grids give an indication of the deformations...
+
+=== elastix-5.2.0-manual_page15_img6.png ===
+Page: 15
+Size: 256x256
+Context:
+(a) fixed
+(b) moving
+(c) translation
+(d) rigid
+(e) affine
+(f) B-spline
+Figure 2.5: Different transformations. (a) the fixed image, (b) the moving image with a grid overlayed, (c)
+the deformed moving image IM(Tµ(x)) with a translation transformation, (d) a rigid transformation, (e) an
+affine transformation, and (f) a B-spline transformation. The deformed moving image nicely resembles the
+fixed image IF (x) using the B-spline transformation. The overlay grids give an indication of the deformations...
+
+=== elastix-5.2.0-manual_page16_img1.png ===
+Page: 16
+Size: 1500x1130
+Context:
+Figure 2.6: Iterative optimisation. Example for registration with a translation transformation model. The
+arrows indicate the steps akdk taken in the direction of the optimum, which is the minimum of the cost
+function.
+gradient (NCG), gradient descent (GD), and Robbins-Monro (RM). Gradient descent and Robbins-Monro
+are discussed below. For details on other optimisation methods we refer to [Klein et al., 2007, Nocedal and
+Wright, 1999].
+Gradient descent (GD): (StandardGradientDescent or RegularSt...
+
+=== elastix-5.2.0-manual_page18_img1.png ===
+Page: 18
+Size: 64x64
+Context:
+(a) resolution 0
+(b) resolution 1
+(c) resolution 2
+(d) original
+(e) resolution 0
+(f) resolution 1
+(g) resolution 2
+(h) original
+Figure 2.7: Two multi-resolution strategies using a Gaussian pyramid (σ = 8.0, 4.0, 2.0 voxels). The first
+row shows multi-resolution with down-sampling (FixedRecursiveImagePyramid), the second row without
+(FixedSmoothingImagePyramid). Note that in the first row, for each dimension, the image size is halved
+every resolution, but that the voxel size increases with a fact...
+
+=== elastix-5.2.0-manual_page18_img2.png ===
+Page: 18
+Size: 128x128
+Context:
+(a) resolution 0
+(b) resolution 1
+(c) resolution 2
+(d) original
+(e) resolution 0
+(f) resolution 1
+(g) resolution 2
+(h) original
+Figure 2.7: Two multi-resolution strategies using a Gaussian pyramid (σ = 8.0, 4.0, 2.0 voxels). The first
+row shows multi-resolution with down-sampling (FixedRecursiveImagePyramid), the second row without
+(FixedSmoothingImagePyramid). Note that in the first row, for each dimension, the image size is halved
+every resolution, but that the voxel size increases with a fact...
+
+=== elastix-5.2.0-manual_page18_img3.png ===
+Page: 18
+Size: 128x128
+Context:
+(a) resolution 0
+(b) resolution 1
+(c) resolution 2
+(d) original
+(e) resolution 0
+(f) resolution 1
+(g) resolution 2
+(h) original
+Figure 2.7: Two multi-resolution strategies using a Gaussian pyramid (σ = 8.0, 4.0, 2.0 voxels). The first
+row shows multi-resolution with down-sampling (FixedRecursiveImagePyramid), the second row without
+(FixedSmoothingImagePyramid). Note that in the first row, for each dimension, the image size is halved
+every resolution, but that the voxel size increases with a fact...
+
+=== elastix-5.2.0-manual_page18_img4.png ===
+Page: 18
+Size: 128x128
+Context:
+(a) resolution 0
+(b) resolution 1
+(c) resolution 2
+(d) original
+(e) resolution 0
+(f) resolution 1
+(g) resolution 2
+(h) original
+Figure 2.7: Two multi-resolution strategies using a Gaussian pyramid (σ = 8.0, 4.0, 2.0 voxels). The first
+row shows multi-resolution with down-sampling (FixedRecursiveImagePyramid), the second row without
+(FixedSmoothingImagePyramid). Note that in the first row, for each dimension, the image size is halved
+every resolution, but that the voxel size increases with a fact...
+
+=== elastix-5.2.0-manual_page18_img5.png ===
+Page: 18
+Size: 128x128
+Context:
+(a) resolution 0
+(b) resolution 1
+(c) resolution 2
+(d) original
+(e) resolution 0
+(f) resolution 1
+(g) resolution 2
+(h) original
+Figure 2.7: Two multi-resolution strategies using a Gaussian pyramid (σ = 8.0, 4.0, 2.0 voxels). The first
+row shows multi-resolution with down-sampling (FixedRecursiveImagePyramid), the second row without
+(FixedSmoothingImagePyramid). Note that in the first row, for each dimension, the image size is halved
+every resolution, but that the voxel size increases with a fact...
+
+=== elastix-5.2.0-manual_page34_img1.png ===
+Page: 34
+Size: 256x256
+Context:
+(a)
+(b)
+(c)
+(d)
+(e)
+Figure 5.2: The effect of the choice of the step size a (SP A). This example can be downloaded from the
+elastix website. (a) the fixed image, (b) the moving image. (c)-(e) show the registered images, with (c)
+a = 320 is too small, (d) a = 3200 as in the downloadable example is good, (e) a = 32000 is too large.
+or, equivalently:
+(SP a 1000.0)
+The last important option related to the optimiser is the maximum number of iterations:
+(MaximumNumberOfIterations 500)
+which is, in the...
+
+=== elastix-5.2.0-manual_page34_img2.png ===
+Page: 34
+Size: 256x256
+Context:
+(a)
+(b)
+(c)
+(d)
+(e)
+Figure 5.2: The effect of the choice of the step size a (SP A). This example can be downloaded from the
+elastix website. (a) the fixed image, (b) the moving image. (c)-(e) show the registered images, with (c)
+a = 320 is too small, (d) a = 3200 as in the downloadable example is good, (e) a = 32000 is too large.
+or, equivalently:
+(SP a 1000.0)
+The last important option related to the optimiser is the maximum number of iterations:
+(MaximumNumberOfIterations 500)
+which is, in the...
+
+=== elastix-5.2.0-manual_page34_img3.png ===
+Page: 34
+Size: 256x256
+Context:
+(a)
+(b)
+(c)
+(d)
+(e)
+Figure 5.2: The effect of the choice of the step size a (SP A). This example can be downloaded from the
+elastix website. (a) the fixed image, (b) the moving image. (c)-(e) show the registered images, with (c)
+a = 320 is too small, (d) a = 3200 as in the downloadable example is good, (e) a = 32000 is too large.
+or, equivalently:
+(SP a 1000.0)
+The last important option related to the optimiser is the maximum number of iterations:
+(MaximumNumberOfIterations 500)
+which is, in the...
+
+=== elastix-5.2.0-manual_page34_img4.png ===
+Page: 34
+Size: 256x256
+Context:
+(a)
+(b)
+(c)
+(d)
+(e)
+Figure 5.2: The effect of the choice of the step size a (SP A). This example can be downloaded from the
+elastix website. (a) the fixed image, (b) the moving image. (c)-(e) show the registered images, with (c)
+a = 320 is too small, (d) a = 3200 as in the downloadable example is good, (e) a = 32000 is too large.
+or, equivalently:
+(SP a 1000.0)
+The last important option related to the optimiser is the maximum number of iterations:
+(MaximumNumberOfIterations 500)
+which is, in the...
+
+=== elastix-5.2.0-manual_page34_img5.png ===
+Page: 34
+Size: 256x256
+Context:
+(a)
+(b)
+(c)
+(d)
+(e)
+Figure 5.2: The effect of the choice of the step size a (SP A). This example can be downloaded from the
+elastix website. (a) the fixed image, (b) the moving image. (c)-(e) show the registered images, with (c)
+a = 320 is too small, (d) a = 3200 as in the downloadable example is good, (e) a = 32000 is too large.
+or, equivalently:
+(SP a 1000.0)
+The last important option related to the optimiser is the maximum number of iterations:
+(MaximumNumberOfIterations 500)
+which is, in the...
+

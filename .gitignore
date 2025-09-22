@@ -1,0 +1,74 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+*.egg-info/
+.eggs/
+dist/
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# PyCharm / VS Code / other IDE configs
+.idea/
+.vscode/
+*.swp
+
+# macOS
+.DS_Store
+
+# Large medical imaging files
+*.dcm
+*.nii
+*.nii.gz
+*.mha
+*.mhd
+*.nrrd
+
+# Data directories (patient data & outputs)
+202*/
+*_coregistered/
+IUSM_MRI_nifti/
+coregistered_results_nif/
+robust_intensity_harmonization/harmonized/
+nif/
+output_original_names/
+
+# SLURM & log files
+*.out
+*.log
+
+# Misc
+*.bak

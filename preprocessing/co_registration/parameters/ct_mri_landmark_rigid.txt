@@ -1,0 +1,77 @@
+// CT-MRI Registration with PSMA Landmark Guidance
+// Based on improved_rigid.txt but optimized for cross-modal registration
+
+// ********** Image Types
+(FixedInternalImagePixelType "float")
+(FixedImageDimension 3)
+(MovingInternalImagePixelType "float")
+(MovingImageDimension 3)
+
+// ********** Components
+(Registration "MultiResolutionRegistration")
+(FixedImagePyramid "FixedSmoothingImagePyramid")
+(MovingImagePyramid "MovingSmoothingImagePyramid")
+(Interpolator "BSplineInterpolator")
+
+// MODIFIED: Combine landmark and intensity metrics for CT-MRI
+(Metric "CorrespondingPointsEuclideanDistanceMetric" "AdvancedNormalizedCorrelation")
+(Optimizer "AdaptiveStochasticGradientDescent")
+(ResampleInterpolator "FinalBSplineInterpolator")
+(Resampler "DefaultResampler")
+(Transform "SimilarityTransform")
+
+// ********** Pyramid
+(NumberOfResolutions 3)
+(ImagePyramidSchedule 4 4 4 2 2 2 1 1 1)
+
+// ********** Transform  
+(AutomaticTransformInitialization "true")
+(AutomaticTransformInitializationMethod "CenterOfGravity")
+(AutomaticScalesEstimation "true")
+(HowToCombineTransforms "Compose")
+
+// ********** Optimizer
+(MaximumNumberOfIterations 1000)  // Increased for CT-MRI
+(AutomaticParameterEstimation "true")
+(UseAdaptiveStepSizes "true")
+(ASGDParameterEstimationMethod "Original")
+
+// ********** Metric Combination (NEW)
+// Landmarks more important for cross-modal registration
+(Metric0Weight 0.7)  // Landmarks
+(Metric1Weight 0.3)  // Intensity
+
+// ********** Landmark Settings (NEW)
+(UseCorrespondingPointsEuclideanDistanceMetric "true")
+// Note: Landmark files will be specified at runtime
+
+// ********** Intensity Metric Settings
+// MODIFIED: Use NormalizedCorrelation instead of MutualInformation for CT-MRI
+(NumberOfHistogramBins 64)  // Increased for cross-modal
+(FixedLimitRangeRatio 0.0)
+(MovingLimitRangeRatio 0.0)
+(FixedKernelBSplineOrder 1)
+(MovingKernelBSplineOrder 3)
+(UseFastAndLowMemoryVersion "true")
+
+// ********** Several
+(WriteTransformParametersEachIteration "false")
+(WriteTransformParametersEachResolution "false")
+(WriteResultImageAfterEachResolution "false")
+(WritePyramidImagesAfterEachResolution "false")
+(WriteResultImage "true")
+(ShowExactMetricValue "false")
+(ErodeMask "false")
+(UseDirectionCosines "true")
+
+// ********** ImageSampler
+// MODIFIED: Increased samples for cross-modal robustness
+(ImageSampler "RandomCoordinate")
+(NumberOfSpatialSamples 8000)  // Increased from 5000
+(NewSamplesEveryIteration "true")
+
+// ********** Interpolator and Resampler
+(BSplineInterpolationOrder 1)
+(FinalBSplineInterpolationOrder 3)
+(DefaultPixelValue 0)
+(ResultImageFormat "nii.gz")

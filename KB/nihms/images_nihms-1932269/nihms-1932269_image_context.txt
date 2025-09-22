@@ -1,0 +1,119 @@
+=== nihms-1932269_page1_img1.png ===
+Page: 1
+Size: 152x152
+Context:
+Multi-Scale Statistical Deformation Based Co-registration of 
+Prostate MRI and Post-surgical Whole Mount Histopathology
+Lin Li1, Rakesh Shiradkar2, Noah Gottlieb1, Christina Buzzy1, Amogh Hiremath1, Vidya 
+Sankar Viswanathan2, Gregory T. MacLennan3, Danly Omil Lima3, Karishma Gupta3, Daniel 
+Lee Shen3, Sree Harsha Tirumani4, Cristina Magi-Galluzzi5, Andrei Purysko6,7, Anant 
+Madabhushi2,8
+1Deptartment of Biomedical Engineering, Case Western Reserve University, Cleveland, OH
+2Wallace H Coulter De...
+
+=== nihms-1932269_page16_img1.png ===
+Page: 16
+Size: 1800x1174
+Context:
+Figure 1. Illustration of different datasets used for validating MSERgSDM.
+1.) 3D-printed mold cohort and clinical cohorts. D1 contains in vivo T2WI, ex vivo T2WI, 
+and WMHs using a patient-specific 3D-printed mold. The in vivo and ex vivo T2WI co-
+registration was applied to approximate the ground truth deformation between WMH and 
+in vivo T2WI. 2.) D2 comprises re-stitched pseudo WMHs and in vivo T2WI. 3.) D3 also 
+contains WHMs but with ink annotations.
+Li et al.
+Page 16
+Med Phys. Author manu...
+
+=== nihms-1932269_page17_img1.png ===
+Page: 17
+Size: 1800x1039
+Context:
+Figure 2. 
+The flowchart of MSERgSDM. MSERgSDM comprises two main parts: (1) multi-scale 
+representation construction; and (2) SDM construction. The top three features with highest 
+structural similarity index were identified as the multi-scale representation F0
+SE and F1
+SE. 
+The SDM was estimated as the gaussian distribution with the orthogonal basis as PCA 
+eigenvectors and variance as the eigenvalues. During itℎ registration iteration, the current 
+deformation field di was projected into SDM...
+
+=== nihms-1932269_page18_img1.png ===
+Page: 18
+Size: 1696x1800
+Context:
+Figure 3. 
+The psesudo-code of the implementation of MSERgSDM consists of two main parts: 
+(1) construction of SDM, where PCA was implemented to estimate the eigenvectors and 
+eigenvalues; and (2) registration, where SDM was added to αMI as the cost function for 
+optimization.
+Li et al.
+Page 18
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+Author Manuscript
+Author Manuscript
+Author Manuscript
+Author Manuscript
+
+
+=== nihms-1932269_page19_img1.png ===
+Page: 19
+Size: 1739x1800
+Context:
+Figure 4. 
+Illustration of the deformations along the top three eigenvectors with [−3,3] standard 
+deviation of SDM learned from our dataset. Here, u1, u2 and u3 denote the top three 
+eigenvectors of SDM. The blue arrows denote the direction and the magnitude of the 
+deformation spatially. The top eigenvectors represent the main deformation captured from 
+the deformation pool.
+Li et al.
+Page 19
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+Author Manuscript
+Author Manuscript
+Autho...
+
+=== nihms-1932269_page20_img1.png ===
+Page: 20
+Size: 1800x1316
+Context:
+Figure 5. 
+Registration results on a pair of (a) in vivo T2WI and (b) WMH with corresponding (c) ex 
+vivo T2WI. Images (d)–(f) are the capsule and anatomical ROI annotations. Green and red 
+lines delineate the prostate capsule boundary on histopathology images and in vivo T2WI, 
+respectively. The anatomical ROIs are annotated using blue lines on in vivo T2WI and 
+orange lines on WMH and ex vivo T2WI. (g) and (h) are the ground truth transformation 
+results of WMH and ex vivo T2WI. (i)–(l) are th...
+
+=== nihms-1932269_page21_img1.png ===
+Page: 21
+Size: 1800x1133
+Context:
+Figure 6. 
+Registration results of (a) two pairs of histopathology image and in vivo T2WI using (b) 
+intensity-based registration; (c) ProsRegNet; (d) MSERg; and (e) MSERgSDM. Green and 
+red lines delineate the prostate capsule boundary on histopathology images and in vivo 
+T2WI, respectively. The tumor extensions are annotated using blue lines on in vivo T2WI 
+and orange lines on histopathology images. The green and red dots denote the urethra on 
+histopathology images and in vivo T2WI.
+Li et a...
+
+=== nihms-1932269_page22_img1.png ===
+Page: 22
+Size: 1800x561
+Context:
+Figure 7. 
+Registration results of (a, b) the same pseudo WMH using MSERg and MSERgSDM. The 
+blue arrows visualize the spatial deformation. (a) the dashed line highlights the region of 
+unnatural deformation; (b) the dash line highlights the corresponding region where SDM 
+enables the constraining of non-realistic deformation.
+Li et al.
+Page 22
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+Author Manuscript
+Author Manuscript
+Author Manuscript
+Author Manuscript
+
+

@@ -1,0 +1,101 @@
+=== PIIS2352396420305399_page1_img1.png ===
+Page: 1
+Size: 224x299
+Context:
+Research paper
+A novel imaging based Nomogram for predicting post-surgical
+biochemical recurrence and adverse pathology of prostate cancer from
+pre-operative bi-parametric MRI
+Lin Lia, Rakesh Shiradkara, Patrick Leoa, Ahmad Algoharya, Pingfu Fub, Sree Harsha Tirumanic,
+Amr Mahrand, Christina Buzzyd, Verena C Obmanne,f, Bahar Mansoorig, Ayah El-Fahmawih,
+Mohammed Shahaith, Ashutosh Tewarii, Cristina Magi-Galluzzij, David Leeh, Priti Lalh,
+Lee Ponskyd,k, Eric Kleinl, Andrei S. Puryskol,m, Anant Ma...
+
+=== PIIS2352396420305399_page3_img1.png ===
+Page: 3
+Size: 1500x944
+Context:
+included axial turbo spin-echo T2WI and axial DWI with ADC maps at
+minimum. (Table 2) The mpMRI scans were reviewed and PCa
+regions were delineated on T2WI and ADC maps using the 3D Slicer
+software [22] by experienced radiologists. (A.S.P, 10 years of experi-
+ence; V.C.O, 4 years of experience, S.H.T, 7 years of experience; and B.
+M 2 years of experience) The PCa delineations on MRI were made
+either by referring to their corresponding RP specimen (N = 56), or
+biopsy and pathology reports when RP...
+
+=== PIIS2352396420305399_page5_img1.png ===
+Page: 5
+Size: 1945x1665
+Context:
+Table 2
+MRI scan parameters.
+Parameter
+Institution 1
+Institution 2
+Institution 3
+Institution 4
+Scanner 1
+Scanner 2
+Scanner 1
+Scanner 1
+Scanner 1
+Manufacturer
+Philips Medical Systems,
+Best, Netherlands
+Siemens Healthcare,
+Erlangen, Germany
+Siemens Healthcare,
+Erlangen, Germany
+Siemens Healthcare,
+Erlangen, Germany
+Siemens Healthcare,
+Erlangen, Germany
+Model
+3T Achieva
+3T Skyra
+3T Skyra
+3T Skyra
+3T Skyra
+Coils
+ERC
+PPAC
+PPAC
+ERC
+PPAC
+T2WI
+TR/TE
+38025151/105115
+3730/121
+5610/121
+3000-6000/ 80-120
+...
+
+=== PIIS2352396420305399_page6_img1.png ===
+Page: 6
+Size: 1762x1542
+Context:
+corresponding authors had full access to all data obtained from this
+study and had ﬁnal responsibility for the decision to submit for publi-
+cation.
+3. Results
+3.1. Ability of radiomic model to predict bRFS
+RadS was built with 5 radiomic features selected within D1.
+(Table 3 and Fig. 3) RadS on D2 resulted in an HR = 7.01 (95% CI, 1.21
+ 40.68, p < .05) on multivariable analysis. RadS was signiﬁcantly
+associated with bRFS and found to be prognostic independent of
+other pre-operative clinicopatho...
+
+=== PIIS2352396420305399_page8_img1.png ===
+Page: 8
+Size: 1865x1945
+Context:
+to predict clinical endpoints, e.g. BCR and AP. In addition, unlike pre-
+vious approaches that have attempted to directly train radiomic clas-
+siﬁers against binary outcome (e.g. presence or absence of BCR)
+[17,29,40], our approach employed a Cox proportional hazards
+approach to build an imaging based prognostic model accounting for
+time to BCR as also censoring information introduced by the variance
+of follow-up time among patients. Moreover, this was also one of the
+very few studies we are awa...
+

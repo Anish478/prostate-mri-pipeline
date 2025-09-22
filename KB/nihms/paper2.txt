@@ -1,0 +1,1450 @@
+HHS Public Access
+Author manuscript
+Author Manuscript
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+Published in final edited form as:
+Med Phys. 2024 April ; 51(4): 2549–2562. doi:10.1002/mp.16753.
+
+Multi-Scale Statistical Deformation Based Co-registration of
+Prostate MRI and Post-surgical Whole Mount Histopathology
+Lin Li1, Rakesh Shiradkar2, Noah Gottlieb1, Christina Buzzy1, Amogh Hiremath1, Vidya
+Sankar Viswanathan2, Gregory T. MacLennan3, Danly Omil Lima3, Karishma Gupta3, Daniel
+Lee Shen3, Sree Harsha Tirumani4, Cristina Magi-Galluzzi5, Andrei Purysko6,7, Anant
+Madabhushi2,8
+
+Author Manuscript
+
+1Deptartment of Biomedical Engineering, Case Western Reserve University, Cleveland, OH
+2Wallace H Coulter Department of Biomedical Engineering at Emory University and Georgia
+
+Institute of Technology
+3Department of Pathology and Urology, Case Western Reserve University, University Hospitals
+
+Cleveland Medical Center, Cleveland, OH, USA.
+4Department of Radiology, University Hospitals, Cleveland, OH, USA
+5Department of Pathology, University of Alabama at Birmingham, AL, USA
+6Glickman Urological and Kidney Institute, Cleveland Clinic, Cleveland, OH, USA
+7Imaging Institute, Cleveland Clinic, Cleveland, OH, USA
+
+Author Manuscript
+
+8Atlanta Veterans Administration Medical Center
+
+Abstract
+
+Author Manuscript
+
+Background: Accurate delineations of regions of interest (ROIs) on multi-parametric magnetic
+resonance imaging (mpMRI) are crucial for development of automated, machine learning-based
+prostate cancer (PCa) detection and segmentation models. However, manual ROI delineations
+are labor-intensive and susceptible to inter-reader variability. Histopathology images from
+radical prostatectomy (RP) represent the “gold standard” in terms of the delineation of disease
+extents, e.g., PCa, prostatitis, and benign prostatic hyperplasia (BPH). Co-registering digitized
+histopathology images onto pre-operative mpMRI enables automated mapping of the ground
+truth disease extents onto mpMRI, thus enabling the development of machine learning tools
+for PCa detection and risk stratification. Still, MRI-histopathology co-registration is challenging
+due to various artifacts and large deformation between in vivo MRI and ex vivo whole-mount
+histopathology images (WMHs). Furthermore, the artifacts on WMHs, such as tissue loss, may
+introduce unrealistic deformation during co-registration.
+Purpose: This study presents a new registration pipeline, MSERgSDM, a multi-scale featurebased registration (MSERg) with a statistical deformation (SDM) constraint, which aims to
+improve accuracy of MRI-histopathology co-registration.
+
+Corresponding Author: Anant Madabhushi, PhD. anantm@emory.edu, Health Sciences Research Building, 1760 Haygood Drive,
+Suite W212, Atlanta, Georgia 30322.
+
+Li et al.
+
+Page 2
+
+Author Manuscript
+
+Methods: In this study, we collected 85 pairs of MRI and WMHs from 48 patients across three
+cohorts. Cohort 1 (D1), comprised of a unique set of 3D printed mold data from six patients,
+facilitated the generation of ground truth deformations between ex vivo WMHs and in vivo MRI.
+The other two clinically acquired cohorts (D2 and D3) included 42 patients. Affine and nonrigid
+registrations were employed to minimize the deformation between ex vivo WMH and ex vivo
+T2-weighted MRI (T2WI) in D1. Subsequently, ground truth deformation between in vivo T2WI
+and ex vivo WMH was approximated as the deformation between in vivo T2WI and ex vivo
+T2WI. In D2 and D3, the prostate anatomical annotations, e.g., tumor and urethra, were made
+by a pathologist and a radiologist in collaboration. These annotations included ROI boundary
+contours and landmark points. Before applying the registration, manual corrections were made for
+flipping and rotation of WMHs. MSERgSDM comprises two main components: (1) multi-scale
+representation construction, and (2) SDM construction. For the SDM construction, we collected N
+= 200 reasonable deformation fields generated using MSERg, verified through visual inspection.
+Three additional methods, including intensity-based registration, ProsRegNet, and MSERg, were
+also employed for comparison against MSERgSDM.
+
+Author Manuscript
+
+Results: Our results suggest that MSERgSDM performed comparably to the ground
+truth(p>0.05). Additionally, MSERgSDM (ROI Dice ratio = 0.61, landmark distance = 3.26 mm)
+exhibited significant improvement over MSERg (ROI Dice ratio = 0.59, landmark distance = 3.69
+mm) and ProsRegNet (ROI Dice ratio = 0.56, landmark distance = 4.00 mm) in local alignment.
+Conclusions: This study presents a novel registration method, MSERgSDM, for mapping ex
+vivo WMH onto in vivo prostate MRI. Our preliminary results demonstrate that MSERgSDM
+can serve as a valuable tool to map ground truth disease annotations from histopathology images
+onto MRI, thereby assisting in the development of machine learning models for prostate cancer
+detection on MRI.
+
+Author Manuscript
+
+Keywords
+prostate; MRI; histology; registration
+
+1.
+
+Introduction
+
+Author Manuscript
+
+Multi-parametric magnetic resonance imaging (mpMRI) is becoming increasingly important
+in prostate cancer (PCa) diagnosis, treatment, and management1–4. Radical prostatectomy
+(RP) specimens are considered to be the “gold-standard” for delineation of disease extent on
+mpMRI5, e.g., prostate cancer, benign prostatic hyperplasia (BPH) and prostatitis. While
+significant efforts have been devoted to developing machine learning models for PCa
+detection and risk stratification on MRI6–8, accurate delineation of disease extent on the
+MRI remains crucial to provide reliable training data for these models. However, manual
+delineations on MRI are expensive and prone to errors when pathology is unavailable as
+reference9. Additionally, significant variability in PCa detection and segmentation persists
+due to differences in interpretability among readers and variations in imaging quality across
+institutions10–12. Accurate co-registration can efficiently establish the disease annotations on
+MRI by aligning excised post-RP specimen with pre-RP mpMRI. Such annotations play a
+pivotal role in training more robust machine learning models and facilitating investigations
+into correlations between radiographic signatures and pathological phenotypes9,13–15.
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 3
+
+Author Manuscript
+Author Manuscript
+
+MpMRI comprises sequences of T2-weighted imaging (T2WI), diffusion-weighted imaging
+(DWI) and dynamic contrast-enhanced MRI (DCE-MRI)16. Among these modalities,
+T2WI provides the highest spatial resolution for prostate anatomy16. As a result, T2WI
+is commonly chosen as the reference image sequence in MRI-histopathology image
+registration studies9,13–15,17–19. Registration algorithms optimize the mapping function
+between reference and target images to spatially align the target images with the reference
+images. However, MRI-histopathology image co-registration poses significant challenges
+due to three main reasons. First, T2WI and digitally scanned whole mount histopathology
+images (WMHs) exhibit substantial differences in appearance and represent prostate tissue
+at different scales, namely millimeter (mm) and micron scales. Second, the co-registration
+process needs to accommodate various deformations that occur during tissue preparation,
+including tissue resection, shrinkage, slicing, and sectioning. Finally, artifacts, such as tissue
+loss, tearing and folding, further complicate the co-registration, potentially leading to nonphysiologic deformation. Consequently, modeling deformations between in vivo T2WI and
+ex vivo WMHs becomes challenging when using the same mapping function across different
+image pairs.
+
+Author Manuscript
+
+Recently, deep learning networks have been designed for image registration with
+high accuracy and efficiency20. However, collecting paired WMHs and T2WI slices
+is challenging, making it difficult to train deep learning registration networks with
+sufficient data. Furthermore, the black-box nature of deep learning models can introduce
+unrealistic deformations that compromise the registration performance. Other methods also
+attempt to reconstruct WMHs as 3D volumes and then perform 3D co-registration14.
+While these methods eliminate the need for slice-to-slice matching, they come with
+increased computational costs. Some approaches aim to map both T2WI and WMHs
+into an alternative representation space where their appearances are more similar than
+in the original space, thereby improving registration performance9,13. For example,
+multi-scale spectral embedding representation registration (MSERg) computes multi-scale
+alternative representations of both T2WI and WMHs to facilitate registration. However,
+MSERg experimentally picked the three scales where T2WI and histopathology images
+are the most similar for constructing alternative representations9, which may not be
+optimal. Consequently, in this study we further optimized MSERg by incorporating the
+structural similarity index measure (SSIM)21 to select the most similar spectral embedding
+representations between T2WI and histopathology images.
+
+Author Manuscript
+
+Regularization methods are necessary to smooth out the deformations and constrain
+unrealistic transformations when pathology images exhibit large deformations or artifacts.
+For example, it may not be feasible to obtain WMHs due to the limited size of single
+glass slides when the surgical specimens are large. It also requires more preparation time
+to slice large specimens thin enough to achieve a high resolution for accurate annotation22.
+In some cases, large specimens could be cut into fragments and mounted onto multiple
+slides (Figure 1). The reconstructed pseudo-WMHs contain more artifacts than actual
+WMHs, such as tissue folding and tissue loss, which require additional regularization during
+registration. Previous studies demonstrated that a collection of reasonable deformations
+can be parameterized as a statistical deformation model (SDM) to reflect the deformation
+distribution and infer anatomical changes between the target and reference images23–25. By
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 4
+
+Author Manuscript
+
+incorporating a prior knowledge of deformations between in vivo T2WI and ex vivo WMHs,
+an SDM can provide a representation of the deformation distribution and estimate the
+likelihood of a new deformation being reasonable. Therefore, in this study, we hypothesize
+that integrating MSERg with SDM (MSERgSDM) can enhance the robustness of MRIhistopathology co-registration.
+
+Author Manuscript
+
+Moreover, most studies were validated on clinically acquired datasets where manual
+annotations are used for estimating registration errors9,13–15,17,18. However, these validation
+strategies may not be appropriate due to inherent mismatching between the scans on T2WI
+and WMHs. Hence, in addition to the clinical datasets, we incorporated patient-specific
+3D printed molds to approximate the ground truth deformation between T2WI and WMHs
+(Figure 1). This approach allowed us to validate the robustness of MSERgSDM in a more
+accurate and reliable manner. Finally, we compared the registration results of MSERgSDM
+with other methods, including intensity-based registration26, MSERg9 and ProsRegNet15.
+This comparative analysis provides a comprehensive evaluation of the performance of
+MSERgSDM and highlights its advantages over alternative registration techniques.
+To summarize, our study introduces a novel registration method, MSERgSDM, with
+significant contributions:
+
+Author Manuscript
+
+•
+
+Construction of a SDM using prior known reasonable deformations to
+summarize the deformation distribution between in vivo T2WI and ex vivo
+WMHs.
+
+•
+
+Implementation of the SDM as a regularizer for MSERg, improving registration
+robustness by constraining unrealistic deformations caused by WMH artifacts.
+
+•
+
+Collection of a unique dataset for registration performance validation,
+comprising 17 corresponding in vivo T2WI, ex vivo T2WI, and WMHs. This
+dataset enables the approximation of ground truth deformations between ex vivo
+WMHs and in vivo T2WI (Figure 1).
+
+•
+
+Validation of the algorithm on multi-site clinically acquired data (68 pairs of
+in vivo T2WI and WMHs), including re-stitched pseudo-WMHs (n = 28) with
+additional artifacts such as tissue shrinkage, tissue loss, and inking (Table1).
+
+•
+
+Evaluation of the performance of our method against the recently published
+state-of-the-art deep learning framework, ProsRegNet15.
+
+Author Manuscript
+
+2.
+
+Methods
+
+2.1
+
+Multi-scale Spectral Embedding Registration
+Our previously published Multi-scale Spectral Embedding Registration (MSERg) algorithm
+has demonstrated the capability of accurately aligning WMHs onto corresponding in
+vivo T2WI9. MSERg involves the construction of multi-scale spectral embedding (SE)
+descriptors F SE = f1SE, …, fmSE , f ⊂ ℝs, F ⊂ ℝm × s to decrease the dissimilarity between the
+
+s-dimensional fixed image I0 : Ω0 ⊂ ℝs and moving image I1 : Ω1 ⊂ ℝs and leverages alphamutual information (αMI) as the cost function to accommodate for registration in high
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 5
+
+m × s-dimensional space to achieve better co-registration results9. In this experiment, we
+
+Author Manuscript
+
+further introduce SDM as a constraint to increase the robustness of MSERg and avoid
+unrealistic deformations during optimization. Therefore, we can formulate the registration as
+an optimization problem:
+⌢
+d = arg max αMI(F 0SE, d[F 1SE]) + δ · SDM(d) .
+d
+(1)
+
+Author Manuscript
+
+Where F 0SE and F 1SE represent the SE descriptors extracted from the fixed image I0 and
+target image I1 respectively. d: Ω1 Ω0 denotes the dense deformation field that needs to be
+optimized so that the similarity between warped moving image F 1SE(x + d(x)) and fixed image
+representations F 0SE can be maximized. δ is the weighting number for the constraint term
+SDM.
+2.2
+
+Statistical deformation model
+SDM is estimated from a set of n vectorized deformation fields D = [d1, d2…dn], which
+produce accurate and reasonable alignment between ex vivo WMHs and in vivo T2WI.
+We exploited principle components analysis (PCA) to build SDM as it has been commonly
+used for statistical model construction24. The registration algorithms are applied on the
+image domain Ω ⊂ ℝs with the same discretization of q degrees of freedom to enable
+mapping displacement at each position across different deformation fields. Therefore, the
+vectorized deformation field di ∈ ℝqs is a qs-dimensional vector. As PCA assumes that di
+is sampled from a multivariate normal distribution approximated as Nqs(d, C), where the
+
+Author Manuscript
+
+mean deformation field is approximated as arithmetic mean d = 1n ∑ni = 1 di ∈ ℝqs, and the
+covariance matrix C ∈ ℝqs × qs as C = DT D, where D = D − d.
+
+Then, PCA estimates the principal components of the estimated multivariate distribution
+Nqs(d, C) via calculating the eigenvectors U = [u1, u2, …, un] ∈ ℝqs and corresponding
+
+eigenvalues λi of the covariance matrix C ∈ ℝqs × qs. We only retain U = [u1, …, ur] so that
+r
+
+n
+
+∑i = 1 λi ≤ 0.98∑i = 1 λi, which means that the SDM retains 98% of variance of D. The SDM
+
+is established as the log likelihood of a multivariate normal distribution as the following
+equation:
+SDM(d) = log
+
+r
+
+T
+
+Author Manuscript
+
+ui (d − d)
+1
+exp −
+2λi
+i = 1 2πλi
+
+∏
+
+2
+
+=
+
+r
+
+∑ − 12 log(2πλi) −
+
+i=1
+
+uiT (d − d)
+2λi
+
+2
+
+.
+(2)
+
+Where d is a vectorized deformation field, d is the arithmetic mean of D, ui and λi are the
+PCA estimated itℎ eigenvecoter and eigenvalue. Equation (2) can estimate the likelihood of
+d as a reasonable deformation according to the SDM learned from prior known deformation
+pool. In this study, the SDM was calculated using 141 eigenvectors that covered 98% of the
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 6
+
+Author Manuscript
+
+variance of the deformation pool. Figure 3 presents the pseudo code for the implementation
+of MSERgSDM and Figure 4 illustrates the deformations along the top three eigenvectors of
+SDM learned from our dataset, which covered approximately 28.8% variance. Table 2 lists
+the specific notational descriptions adopted in this study.
+2.3
+
+Other registration methods and performance measurements
+
+Author Manuscript
+
+Three other registration methods, including intensity-based registration26, MSERg9 and
+ProsRegNet15, were applied on the same datasets for peformance comparison. Intensitybased registration was a non-rigid registration with mutual information as the cost function.
+ProsRegNet was first trained with synthetically deformed mono-modal data and then
+was generalized to register histopathology images onto T2WI. In this study, a pretrained
+ProsRegNet15 was applied on the same dataset for head-to-head comparison. MSERg
+was implemented in autograd image registration laboratory (AIRLab)27 with a similarity
+measurement αMI28 added.
+To evaluate the global alignment accuracy, the Dice similarity coefficient (DSC)29 were
+applied to calculate the alignment and overlap between prostate capsule of T2WI and
+transformed WMHs. To evaluate the local alignment accuracy, DSC between the anatomical
+ROIs or root-mean-squrare error (RMSE) between anatomical landmarks were evaluated. In
+addition, the anatomical ROIs on transformed WMHs were also compared with ROIs on
+approximated ground truth using DSC to quantify the errors between the registration results
+and ground truth.
+2.4
+
+Data acquisition
+
+Author Manuscript
+
+This retrospective study was approved by the Case Western Reserve University, University
+Hospitals, and the Cleveland Clinic Institutional Review Board (IRB), and is compliant with
+the Health Insurance Portability and Accountability Act (HIPAA); de-identified data was
+used, and no protected health information was needed. The need for informed consent from
+all patients was waived by the IRB.
+
+Author Manuscript
+
+The study comprised three cohorts of data obtained from different institutes. D1 consisted
+of N = 17 pairs of MRI and WMHs from six patients (Table1 and Figure 1). These
+WMHs were acquired using 3D-printed molds constructed according to the prostate capsule
+segmentation on T2WI. Each patient in D1 had previously undergone 3 Tesla (T) preoperative in vivo T2WI and the prostate capsule was manually segmented for 3D-printed
+mold design. The surgically removed prostate was fitted into the 3D-printed mold to
+ensure the in-plane correspondence between sliced surgical specimen and in vivo T2WI.
+Furthermore, we also collected 3T ex vivo T2WI as an additional reference to determine
+the slice-to-slice correspondence between ex vivo WMHs and in vivo T2WI in the axial
+plane. D2 consisted of N = 28 pairs of MRI and pseudo-WMHs from 21 patients. The
+pseudo-WMHs were reconstructed using Histostitcher®22 when the all the sliced specimen
+quadrants were available for constructing the WMHs. The stitched pseudo-WMHs contained
+more artifacts and deformation compared to the WMHs, posing greater challenges for
+co-registration. D3 comprised N = 40 pairs of MRI and WMHs from 21 patients in the
+TCIA “Prostate-MRI” dataset30. In this cohort, experts determined the slice correspondence
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 7
+
+Author Manuscript
+
+between in vivo T2WI and histopathology images. For the construction of the SDM, N
+= 200 reasonable deformation fields were generated using MSERg from the datasets of
+previous studies15,31, which in turn were collected via visual inspection.
+2.5
+
+Evaluation Reference
+
+Author Manuscript
+
+In D1, during pre-processing, affine and nonrigid registrations were employed to maximally
+reduce the deformation between ex vivo WMH and ex vivo T2WI. Affine and nonrigid
+registrations were sufficient to recover the deformation because the 3D-printed mold
+constrains the deformation between ex vivo WMH and ex vivo T2WI. Then, ground
+truth deformation between in vivo T2WI and pre-processed WMH is approximated as the
+deformation between in vivo T2WI and ex vivo T2WI (Figure 1). In D2 and D3, the MSERg
+registration algorithm was first applied to map the whole-mount pathology images to the
+MRI images, and then the mapped annotations were reviewed and edited by a pathologist
+and a radiologist working together in unison. The co-registration was applied to maximally
+control the subjective error that may be introduced during the annotation. The annotations
+included regions of interest (ROIs), e.g., prostate cancer, and nodular prostatic hyperplasia,
+and the landmarks, e.g., urethra and the center of some hyperplasia nodules that are both
+visually obvious on whole-mount images and MRI images. Before registration was applied,
+flipping and rotation of WMHs were manually corrected.
+2.6
+
+Implementation
+
+Author Manuscript
+
+For all the RP specimens, the tissue region was cropped and resampled to a resolution of
+0.5×0.5mm. Subsequently, the cropped tissue images were padded to a size of 200×200
+pixels, with the tissue region centered within the padding. Similarly, the T2WI images were
+resampled to a resolution of 0.5×0.5mm, and the prostate capsules were cropped according
+to the manual annotations. The cropped T2WI images were also padded to 200×200 pixels
+with the prostate region in the center. This process ensured that all prostates were aligned
+within a consistent coordinate space. To initially align the histopathology images and in
+vivo T2WI, an affine registration was performed. Subsequently, intensity-based registration,
+ProsRegNet, MSERg, and MSERg with SDM were applied to register the pre-processed
+WMH onto the in vivo T2WI. To accommodate ProsRegNet, the images were further
+padded to a size of 240×240 pixels.
+
+Author Manuscript
+
+All the registration experiments were performed using an Intel Core i7-10700 CPU (8-Core,
+16-Thread, 2.9 GHz (4.8 GHz Turbo)). Intensity-based registration was executed using
+Elastix toolbox26 with a multi-resolution strategy, mutual information (MI) as the similarity
+metric, standard gradient descent as the optimizer, and B-spline transform. MSERg and
+MSERgSDM were implemented in AIRLab27. ProsRegNet and AIRLab were implemented
+on the GeForce RTX 2060 GPU. AIRLab borrows automatic differentiation of PyTorch32
+and thus avoids the need for analytic gradient equation for the objective function. The
+pseudo-WMH is constructed using Histostitcher®22, implemented in Matlab 2019a.
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 8
+
+Author Manuscript
+
+3.
+
+Results
+
+3.1
+
+Quantitative results
+
+Author Manuscript
+
+3.1.1. Validation on Mold data—D1 contains in vivo T2WI, ex vivo T2WI and
+ex vivo WMHs acquired using 3D-printed mold. The ground truth deformations were
+approximated via performing intensity-based registration between ex vivo T2WI and in
+vivo T2WI. These ground truth deformations were then applied to the ex vivo WMHs. The
+approximated ground truth deformations produced a DSC of 0.98 ± 0.01 for the prostate
+capsule alignment between in vivo T2WI and ex vivo WMHs, and a DSC of 0.74 ±
+0.14 for anatomical ROI alignment. MSERg exhibited a similar overall alignment accuracy
+compared to the approximated ground truth. However, the DSC for anatomical ROIs was
+significantly lower than the approximated ground truth. ProsRegNet demonstrated a high
+mean DSC for anatomical ROIs, comparable to the ground truth, but the overall alignment
+was significantly lower than the approximated ground truth. Intensity-based registration
+performed significantly worse than the approximated ground truth. Only MSERgSDM
+illustrated a comparable registration performance to the approximated ground truth, both
+in terms of global and local measurements, with p > 0.05 (Table 3).
+
+Author Manuscript
+
+3.1.2. Validation on Clinically Acquired Data—D2 comprised N = 28 pairs of in
+vivo T2WI and pseudo-WMHs containing more artifacts and noise compared to WMHs.
+MSERgSDM demonstrated significant improvement over MSERg and ProsRegNet in terms
+of anatomical ROI alignment (Table 4). Furthermore, in D3 (N = 49), MSERgSDM
+better aligned the anatomical structures than MSERg and ProsRegNet, suggested by the
+anatomical landmark distance between transformed WMHs and T2WI (Table 4). These
+results suggested that the SDM integration in MSERgSDM aided in preserving anatomical
+structure and avoiding unrealistic deformation between histopathology images and in vivo
+T2WI. In addition, the results indicated that both MSERg and MSERgSDM can more
+accurately align the prostate capsule between ex vivo WMHs and in vivo T2WI than
+intensity-based registration and ProsRegNet.
+3.2
+
+Qualitative results
+
+Author Manuscript
+
+Figure 5 demonstrates the registration results of a pair of in vivo T2WI and WMH with
+corresponding ex vivo T2WI in D1. The prostate capsules are highlighted in green and red
+on WMHs and T2WI, respectively. The corresponding anatomical ROIs were delineated
+on WMHs or ex vivo T2WI (orange) and T2WI (blue) (Figure 5 (d)-(f)). Additionally,
+Figure 5 (d) and (e) show the transformed WMHs and ex vivo T2WI based on the
+approximated ground truth, with the transformed annotations highlighted. MSERgSDM
+demonstrates comparable registration results to the approximated ground truth, while other
+registration methods show inferior alignment accuracy for the global capsule or anatomical
+ROI alignment.
+Figure 6 illustrated the registration results of two pairs of ex vivo WMHs and in
+vivo T2WI. Intensity-based registration achieved comparable ROI alignment accuracy to
+MSERgSDM, but exhibits significantly worse accuracy for global alignment compared to all
+other methods. ProsRegNet tends to under-deform the WMHs compared to MSERgSDM.
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 9
+
+Author Manuscript
+
+MSERgSDM effectively aligns the boundaries of the prostate capsule in both examples
+and accurately maps tumor extension from WMHs onto T2WI, even in the presence of
+large artifacts. In addition, MSERgSDM illustrates a better urethral alignment between
+histopathology image (green dots) and T2WI (red dots) (Figure 6).
+Furthermore, Figure 7 highlighted the region where MSERg introduces unreasonable, while
+SDM helps constrain such unnatural deformation. The results show that MSERgSDM
+generates more robust and accurate registration outcomes compared to MSERg by
+incorporating SDM to constrain unrealistic deformations. These visualizations and
+observations support the efficacy of MSERgSDM in achieving improved registration
+results, surpassing other methods, and providing accurate alignment of anatomical structures
+between histopathology images and in vivo T2WI.
+
+Author Manuscript
+
+4.
+
+Discussion
+Accurate delineation of disease extent on MRI is critical to the development of
+computer-aided prostate cancer detection and characterization models6–8. However,
+manual delineations on radiographic images are labor-intensive and prone to subjective
+variance14,15. To address this challenge, previous studies have attempted to develop coregistration algorithms to accurately map disease extent from ex vivo WMHs onto in vivo
+MRI. These approaches could leverage anatomical landmarks19, create new representations
+of both image modalities9, construct novel cost function13,33, or implement deep learning
+networks15 to facilitate co-registration. However, due to various types of artifacts on WMHs,
+unrealistic deformations (Figure 7) may be produced during registration, leading to errors in
+mapping the disease extent on MRI.
+
+Author Manuscript
+Author Manuscript
+
+In this study, we proposed a novel registration approach, MSERgSDM, which incorporates
+a statistical deformation model (SDM) as an additional regularizer to constrain deformations
+and improve registration robustness to noise and artifacts. MSERgSDM consists of two
+main parts. First, MSERg9 allowed for computing alternative representations of WMHs
+and T2WI to shrink differences in their appearance and thereby improve registration
+accuracy. In this study, MSERgSDM utilizes the structural similarity index to select the
+top three most similar representations, reducing computational cost without compromising
+registration performance. Second, SDM can regularize the new deformation within a
+reasonable range according to the prior known plausible deformations. SDM is constructed
+using PCA derived eigenvectors and eigenvalues. As illustrated in Figure 4, the top three
+eigenvectors capture three main deformations learned from the deformation pool, including
+the shrinkage and enlargement deformation along the prostate capsule boundaries, and the
+smooth deformation around urethra. In addition, the corresponding eigenvalues capture the
+distribution of deformations along the directions of the eigenvectors. During registration
+iterations, MSERgSDM projects the current deformation onto SDM and estimates its
+plausibility to further regularize deformation. Although it is difficult to obtain deformations
+that perfectly transform ex vivo WMHs to match in vivo T2WI, reasonable deformations
+can be collected from previous results on images with few artifacts using methods such
+as landmark-based registration18, non-rigid deformation assisted with novel similarity
+metrics13, or alternative image representations9. Furthermore, SDM can be initially built
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 10
+
+Author Manuscript
+
+on a few high quality samples23, and then new SDM-regularized deformations can be
+accumulated for SDM training to increase its expressiveness.
+
+Author Manuscript
+
+Additionally, this study collected multi-site cohorts of data to validate the robustness of
+MSERgSDM, as listed in Table 1. The 3D printed mold used for collecting D1 was
+constructed using prostate gland segmentations from in vivo T2WI, which allows the
+prostate specimen to be cut at approximately the same axial resolution as the in vivo T2WI.
+Hence, the evaluation of registration performance is more accurate on D1 compared to D2
+or D3. Moreover, because both in vivo and ex vivo T2WI correspond to the same imaging
+modality, the intensity-based registration can accurately approximate their deformations.
+Furthermore, fewer deformations exist between the ex vivo T2WI and the whole-mount
+pathology, so the deformation between in vivo and ex vivo T2WI can be approximated as
+the deformation between in vivo T2WI and the whole-mount pathology images, which is
+then used as the ground truth. Therefore, we can directly compare the deformation fields
+estimated by different registration methods with the ground truth to evaluate the registration
+performance in D1.In this study, MSERgSDM illustrated comparable performance to the
+ground truth deformation estimated on D1. In addition, clinical cohorts D2 and D3 were also
+collected to evaluate the robustness of different registration methods when more artifacts
+exist. The anatomical ROI and landmark alignment results on D2 and D3 corroborated the
+registration accuracy of MSERgSDM suggesting that SDM could make MSERg more robust
+to artifacts on WMHs.
+
+Author Manuscript
+
+Deep learning-based methods have also been explored for co-registration of multi-modal
+imaging data. For instance, ProsRegNet, a deep learning framework, was recently proposed
+for registration of prostate MRI and WMHs15. ProsRegNet achieved similar performance as
+other the state-of-art registration algorithms14 while offering faster computation. Our results
+suggested that MSERgSDM can outperform ProsRegNet and reach better global and local
+alignment between WMH and in vivo T2WI. ProsRegNet was trained with synthetically
+deformed mono-modal data and then generalized to register WMHs onto T2WI15. However,
+due to the complexity of deformation between WMHs and in vivo T2WI, using randomly
+deformed image pairs for training may potentially jeopardize the registration, when synthetic
+deformations cannot fully reflect real deformation distribution between WMHs and in vivo
+T2WI. Conversely, our method selected representative deformations to construct the SDM as
+a regularizer while allowing for the flexibility to compensate for deformations not captured
+by SDM.
+
+Author Manuscript
+
+A previous study34 found that 13% of clinically significant prostate cancers (CsPCa) were
+systematically overlooked by mpMRI in the PROMIS cohort and the median maximum
+cancer core length (MCCL) of undetected CsPCa was 5mm. Therefore, if a registration
+algorithm can limit the alignment error to within 5 mm, it can effectively assist in
+identifying CsPCa annotations that may be missed through visual observation on mpMRI.
+Table 4 provides the landmark distance metrics of various registration algorithms. It shows
+that the upper bound of the distance error for MSERg is 5.13 mm, MSERgSDM is 4.71
+mm, and ProsRegNet is 5.68 mm. Among these, MSERgSDM best fulfills the requirement
+of controlling the mapping error to within 5 mm. Additionally, MSERgSDM demonstrates
+significantly higher ROI Dice similarity coefficient (DSC) values compared to MSERg and
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 11
+
+Author Manuscript
+
+ProsRegNet. The results highlight the potential of MSERgSDM to provide annotations of
+CsPCa that may be systematically overlooked by mpMRI for the development of machine
+learning models to enhance CsPCa detection accuracy.
+
+Author Manuscript
+
+Although our preliminary results have shown that MSERgSDM can accurately align WMHs
+onto in vivo T2WI, there are still some limitations. The new MSERg SDM is primarily a
+2D registration algorithm, designed to address deformations within each individual slice.
+However, it is crucial to note that the actual deformations occur in 3D space, and potential
+plane mismatching between T2WI and WHM slices may negatively impact registration
+performance. It is also challenging to reconstruct 3D prostate volume using WMH. First,
+the RP specimens comprise the axial sectioning of the middle gland and the sagittal
+sectioning of the coned apex and base at 3 mm intervals35. Second, each WMH is a
+4 μm section cut from a 3 mm-thick slice. And the WHM may be flipped, randomly
+rotated, or have tissue folding or loss artifacts during mounting process. Third, the digitally
+scanned WMH images are typically several gigabytes in size, making the process of image
+reconstruction cumbersome, labor-intensive and computationally expensive. Beyond the
+technical and logistical issues associated with the registration, the bigger question that
+we sought to address in this work was the ability to carefully and spatially map disease
+extent from the pathology on to the MRI to be able to create accurate training sets for the
+development of AI algorithms on radiology. With this intent in mind, the 2D approach is
+reasonable since it enables us to achieve this objective. Additionally, given that prostate
+lesions typically do not extend across the entire prostate, it is more effective to prioritize
+local registration performance. Consequently, 2D registration can place greater emphasis
+on aligning slides that contain prostate lesions. Additionally, this approach also aligns with
+previously published 2D methods for WMH and in vivo T2WI co-registration15,17,19,31.
+
+Author Manuscript
+Author Manuscript
+
+Moreover, MSERgSDM is an iterative method, so the computation will not be as fast as the
+one-shot deep learning methods, e.g., ProsRegNet. However, in the scenario of WMHs and
+in vivo T2WI co-registration, accuracy of registration is more important than computation
+time. Moreover, due to the limited size of the deformation fields used to learn SDM,
+the current SDM regularizer has limited capacity in constraining the deformation only in
+the main direction captured by SDM. Thus, more deformation fields should be collected
+to increase the expressiveness of SDM in the future. Furthermore, we will explore other
+roles that SDM can play in assisting MRI-histopathology co-registration, such as guiding
+the generation of synthetic deformations to facilitate the training of deep learning-based
+registration. In addition, the preprocessing involved manual input, such as flipping and
+rotation of WMHs, and slice-to-slice correspondences between WMH and T2WI. Thus, in
+the future, we will attempt to automate the preprocessing steps and explore the integration of
+SDM as a regularizer with other registration pipelines to accelerate the registration speed.
+
+5.
+
+Conclusion
+This study presented a novel registration method, MSERgSDM, for mapping whole mount
+radical prostatectomy surgical specimens onto in vivo prostate MRI. By incorporating
+a statistical deformation model based on prior knowledge of reasonable deformations,
+MSERgSDM effectively constrained unrealistic deformations and preserved the anatomical
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 12
+
+Author Manuscript
+
+structure on the transformed histopathology images. Our preliminary results demonstrated
+that MSERgSDM could be employed as a tool to map ground truth disease annotations from
+histopathology images onto MRI and, in turn, assist in the development of machine learning
+models for prostate cancer detection on MRI. In addition, such registration methods can also
+be deployed to establish spatial correspondence between histology and radiology images to
+facilitate the investigations of correlation between radiographic phenotypes with underlying
+biological meanings.
+
+Acknowledgments
+
+Author Manuscript
+
+Research reported in this publication was supported by the National Cancer Institute under award numbers
+R01CA249992-01A1, R01CA202752-01A1, R01CA208236-01A1, R01CA216579-01A1, R01CA220581-01A1,
+R01CA257612-01A1, 1U01CA239055-01, 1U01CA248226-01, 1U54CA254566-01, National Heart, Lung and
+Blood Institute 1R01HL15127701A1, R01HL15807101A1, National Institute of Biomedical Imaging and
+Bioengineering 1R43EB028736-01, National Center for Research Resources under award number 1 C06
+RR12463-01, VA Merit Review Award IBX004121A from the United States Department of Veterans Affairs
+Biomedical Laboratory Research and Development Service, the Office of the Assistant Secretary of Defense
+for Health Affairs, through the Breast Cancer Research Program (W81XWH-19-1-0668), the Prostate Cancer
+Research Program (W81XWH-15-1-0558, W81XWH-20-1-0851, W81XWH-18-1-0524), the Lung Cancer
+Research Program (W81XWH-18-1-0440, W81XWH-20-1-0595), the Peer Reviewed Cancer Research Program
+(W81XWH-18-1-0404, W81XWH-21-1-0345, W81XWH-21-1-0160), the Kidney Precision Medicine Project
+(KPMP) Glue Grant and sponsored research agreements from Bristol Myers-Squibb, Boehringer-Ingelheim, EliLilly and AstraZeneca.
+The content is solely the responsibility of the authors and does not necessarily represent the official views of the
+National Institutes of Health, the U.S. Department of Veterans Affairs, the Department of Defense, or the United
+States Government.
+Conflicts of Interest
+
+Author Manuscript
+
+Anant Madabhushi reports a relationship with Picture Health that includes: consulting or advisory and equity or
+stocks. Anant Madabhushi reports a relationship with Elucid Bioimaging that includes: equity or stocks. Anant
+Madabhushi reports a relationship with Inspirata Inc that includes: equity or stocks. Anant Madabhushi reports
+a relationship with Aiforia Inc that includes: consulting or advisory. Anant Madabhushi reports a relationship
+with SimBioSys Inc that includes: consulting or advisory. Anant Madabhushi reports a relationship with Biohme
+that includes: consulting or advisory. Anant Madabhushi reports a relationship with Castle Biosciences Inc that
+includes: consulting or advisory. Anant Madabhushi reports a relationship with AstraZeneca that includes: funding
+grants. Anant Madabhushi reports a relationship with Boehringer Ingelheim Pharmaceuticals Inc that includes:
+funding grants. Anant Madabhushi reports a relationship with Eli Lilly and Company that includes: funding grants.
+Anant Madabhushi reports a relationship with Bristol Myers Squibb Co that includes: funding grants. Andrei
+S Purysko reports a relationship with American College of Radiology that includes: funding grants. Andrei S
+Purysko reports a relationship with Blue Earth Diagnostics that includes: consulting or advisory, funding grants,
+and travel reimbursement. Andrei S Purysko reports a relationship with University of Missouri that includes:
+consulting or advisory. Andrei S Purysko reports a relationship with Koelis that includes: consulting or advisory.
+Andrei S Purysko reports a relationship with Profound Medical that includes: travel reimbursement. Sree Harsha
+Tirumani reports a relationship with Radiological Society of North America that includes: funding grants. Andrei
+S Purysko has patent #Radiomic features of prostate bi-parametric magnetic resonance imaging (BPMRI) associate
+with decipher score Patent number: 11017896 issued to UNIV CASE WESTERN RESERVE (US) CLEVELAND
+CLINIC FOUND (US). Anant Madabhushi has patent #US9235887B2 issued to Boston University Rutgers, State
+University of New Jersey, University of Pennsylvania, Elucid Bioimaging Inc.
+
+Author Manuscript
+
+Abbreviations:
+ROIs
+
+regions of interest
+
+PCa
+
+prostate cancer
+
+RP
+
+radical prostatectomy
+
+BPH
+
+benign prostatic hyperplasia
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 13
+
+Author Manuscript
+Author Manuscript
+
+WMHs
+
+whole mount histopathology images
+
+MSERg
+
+a multi-scale feature-based registration
+
+SDM
+
+a statistical deformation
+
+MSERgSDM
+
+a multi-scale feature-based registration with a statistical deformation
+
+T2WI
+
+T2-weighted imaging
+
+DWI
+
+diffusion-weighted imaging
+
+DCE
+
+dynamic contrast-enhanced MRI
+
+SWMI
+
+spatial weighted mutual information
+
+MACMI
+
+a multiattribute combined mutual information
+
+CNN
+
+convolutional neural network
+
+AIRLab
+
+autograd image registration laboratory
+
+DSC
+
+Dice similarity coefficient
+
+RMSE
+
+root-mean-square error
+
+MI
+
+mutual information
+
+References
+Author Manuscript
+Author Manuscript
+
+1. Kasivisvanathan V, Rannikko AS, Borghi M, et al. MRI-Targeted or Standard Biopsy for
+Prostate-Cancer Diagnosis. N Engl J Med. 2018;378(19):1767–1777. doi:10.1056/NEJMoa1801993
+[PubMed: 29552975]
+2. Israël B, Leest M van der, Sedelaar M, Padhani AR, Zámecnik P, Barentsz JO. Multiparametric
+Magnetic Resonance Imaging for the Detection of Clinically Significant Prostate Cancer: What
+Urologists Need to Know. Part 2: Interpretation. Eur Urol. 2020;77(4):469–480. doi:10.1016/
+j.eururo.2019.10.024 [PubMed: 31767492]
+3. Donaldson IA, Alonzi R, Barratt D, et al. Focal Therapy: Patients, Interventions, and
+Outcomes—A Report from a Consensus Meeting. Eur Urol. 2015;67(4):771–777. doi:10.1016/
+j.eururo.2014.09.018 [PubMed: 25281389]
+4. Westphalen AC, Reed GD, Vinh PP, Sotto C, Vigneron DB, Kurhanewicz J. Multiparametric 3T
+endorectal mri after external beam radiation therapy for prostate cancer. J Magn Reson Imaging.
+2012;36(2):430–437. doi:10.1002/jmri.23672 [PubMed: 22535708]
+5. Bhattacharya I, Lim DS, Aung HL, et al. Bridging the gap between prostate radiology and
+pathology through machine learning. ArXiv211202164 Cs Eess. Published online December 3,
+2021. Accessed May 10, 2022. http://arxiv.org/abs/2112.02164
+6. Algohary A, Viswanath S, Shiradkar R, et al. Radiomic features on MRI enable risk categorization
+of prostate cancer patients on active surveillance: Preliminary findings. J Magn Reson Imaging
+JMRI. Published online February 22, 2018. doi:10.1002/jmri.25983
+7. Li L, Shiradkar R, Leo P, et al. A novel imaging based Nomogram for predicting post-surgical
+biochemical recurrence and adverse pathology of prostate cancer from pre-operative bi-parametric
+MRI. EBioMedicine. 2021;63. doi:10.1016/j.ebiom.2020.103163
+8. Hiremath A, Shiradkar R, Fu P, et al. An integrated nomogram combining deep learning, Prostate
+Imaging–Reporting and Data System (PI-RADS) scoring, and clinical variables for identification of
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 14
+
+Author Manuscript
+Author Manuscript
+Author Manuscript
+Author Manuscript
+
+clinically significant prostate cancer on biparametric MRI: a retrospective multicentre study. Lancet
+Digit Health. 2021;3(7):e445–e454. doi:10.1016/S2589-7500(21)00082-0 [PubMed: 34167765]
+9. Li L, Pahwa S, Penzias G, et al. Co-Registration of ex vivo Surgical Histopathology and in vivo
+T2 weighted MRI of the Prostate via multi-scale spectral embedding representation. Sci Rep.
+2017;7(1):8717. doi:10.1038/s41598-017-08969-w [PubMed: 28821786]
+10. Westphalen AC, McCulloch CE, Anaokar JM, et al. Variability of the Positive Predictive Value
+of PI-RADS for Prostate MRI across 26 Centers: Experience of the Society of Abdominal
+Radiology Prostate Cancer Disease-focused Panel. Radiology. 2020;296(1):76–84. doi:10.1148/
+radiol.2020190646 [PubMed: 32315265]
+11. Rosenkrantz AB, Ginocchio LA, Cornfeld D, et al. Interobserver Reproducibility of the PI-RADS
+Version 2 Lexicon: A Multicenter Study of Six Experienced Prostate Radiologists. Radiology.
+2016;280(3):793–804. doi:10.1148/radiol.2016152542 [PubMed: 27035179]
+12. Moldovan PC, Van den Broeck T, Sylvester R, et al. What Is the Negative Predictive Value
+of Multiparametric Magnetic Resonance Imaging in Excluding Prostate Cancer at Biopsy? A
+Systematic Review and Meta-analysis from the European Association of Urology Prostate Cancer
+Guidelines Panel. Eur Urol. 2017;72(2):250–266. doi:10.1016/j.eururo.2017.02.026 [PubMed:
+28336078]
+13. Chappelow J, Bloch BN, Rofsky N, et al. Elastic registration of multimodal prostate MRI and
+histology via multiattribute combined mutual information. Med Phys. 2011;38(4):2005–2018.
+doi:10.1118/1.3560879 [PubMed: 21626933]
+14. Rusu M, Shao W, Kunder CA, et al. Registration of presurgical MRI and histopathology images
+from radical prostatectomy via RAPSODI. Med Phys. 2020;47(9):4177–4188. doi:10.1002/
+mp.14337 [PubMed: 32564359]
+15. Shao W, Banh L, Kunder CA, et al. ProsRegNet: A deep learning framework for registration of
+MRI and histopathology images of the prostate. Med Image Anal. 2021;68:101919. doi:10.1016/
+j.media.2020.101919 [PubMed: 33385701]
+16. Turkbey B, Rosenkrantz AB, Haider MA, et al. Prostate Imaging Reporting and Data System
+Version 2.1: 2019 Update of Prostate Imaging Reporting and Data System Version 2. Eur Urol.
+2019;76(3):340–351. doi:10.1016/j.eururo.2019.02.033 [PubMed: 30898406]
+17. Park H, Piert MR, Khan A, et al. Registration Methodology for Histological Sections and In Vivo
+Imaging of Human Prostate. Acad Radiol. 2008;15(8):1027–1039. doi:10.1016/j.acra.2008.01.022
+[PubMed: 18620123]
+18. Ward AD, Crukley C, McKenzie CA, et al. Prostate: Registration of Digital Histopathologic
+Images to in Vivo MR Images Acquired by Using Endorectal Receive Coil. Radiology.
+2012;263(3):856–864. doi:10.1148/radiol.12102294 [PubMed: 22474671]
+19. Kalavagunta C, Zhou X, Schmechel SC, Metzger GJ. Registration of in vivo prostate MRI and
+pseudo-whole mount histology using Local Affine Transformations guided by Internal Structures
+(LATIS). J Magn Reson Imaging. 2015;41(4):1104–1114. doi:10.1002/jmri.24629 [PubMed:
+24700476]
+20. Haskins G, Kruger U, Yan P. Deep Learning in Medical Image Registration: A Survey.
+ArXiv190302026 Cs Eess Q-Bio. Published online March 5, 2019. Accessed June 26, 2019.
+http://arxiv.org/abs/1903.02026
+21. Wang Z, Bovik AC, Sheikh HR, Simoncelli EP. Image quality assessment: from error
+visibility to structural similarity. IEEE Trans Image Process. 2004;13(4):600–612. doi:10.1109/
+TIP.2003.819861 [PubMed: 15376593]
+22. HistoStitcher©: An interactive program for accurate and rapid reconstruction of digitized whole
+histological sections from tissue fragments - ScienceDirect. Accessed May 7, 2019. https://
+www.sciencedirect.com/science/article/pii/S0895611111000218
+23. Albrecht T, Luthi M, Vetter T. A statistical deformation prior for non-rigid image and shape
+registration. In: 2008 IEEE Conference on Computer Vision and Pattern Recognition. ; 2008:1–8.
+doi:10.1109/CVPR.2008.4587394
+24. Rueckert D, Frangi AF, Schnabel JA. Automatic construction of 3-D statistical deformation
+models of the brain using nonrigid registration. IEEE Trans Med Imaging. 2003;22(8):1014–1025.
+doi:10.1109/TMI.2003.815865 [PubMed: 12906255]
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 15
+
+Author Manuscript
+Author Manuscript
+Author Manuscript
+
+25. Prabu SB, Toth R, Madabhushi A. A statistical deformation model (SDM) based regularizer for
+non-rigid image registration: application to registration of multimodal prostate MRI and histology.
+In: Medical Imaging 2013: Digital Pathology. Vol 8676. International Society for Optics and
+Photonics; 2013:86760C. doi:10.1117/12.2008707
+26. Klein S, Staring M, Murphy K, Viergever MA, Pluim J. elastix: A Toolbox for IntensityBased Medical Image Registration. IEEE Trans Med Imaging. 2010;29(1):196–205. doi:10.1109/
+TMI.2009.2035616 [PubMed: 19923044]
+27. Sandkühler R, Jud C, Andermatt S, Cattin PC. AirLab: Autograd Image Registration Laboratory.
+ArXiv180609907 Cs. Published online March 2, 2020. Accessed April 10, 2020. http://
+arxiv.org/abs/1806.09907
+28. Verdú S α-mutual information. In: 2015 Information Theory and Applications Workshop (ITA). ;
+2015:1–6. doi:10.1109/ITA.2015.7308959
+29. Dice LR. Measures of the Amount of Ecologic Association Between Species. Ecology.
+1945;26(3):297–302. doi:10.2307/1932409
+30. Choyke P, Turkbey B, Pinto P, Merino M, Wood B. Data From PROSTATE-MRI. Published online
+2016. doi:10.7937/K9/TCIA.2016.6046GUDV
+31. Li L, Pahwa S, Penzias G, et al. Co-Registration of ex vivo Surgical Histopathology and in vivo
+T2 weighted MRI of the Prostate via multi-scale spectral embedding representation. Sci Rep.
+2017;7(1):8717. doi:10.1038/s41598-017-08969-w [PubMed: 28821786]
+32. Paszke A, Gross S, Massa F, et al. PyTorch: An Imperative Style, High-Performance Deep
+Learning Library. ArXiv191201703 Cs Stat. Published online December 3, 2019. Accessed
+February 8, 2021. http://arxiv.org/abs/1912.01703
+33. Patel P, Chappelow J, Tomaszewski J, et al. Spatially weighted mutual information (SWMI) for
+registration of digitally reconstructed ex vivo whole mount histology and in vivo prostate MRI.
+Annu Int Conf IEEE Eng Med Biol Soc IEEE Eng Med Biol Soc Annu Int Conf. 2011;2011:6269–
+6272. doi:10.1109/IEMBS.2011.6091547
+34. Norris JM, Carmona Echeverria LM, Bott SRJ, et al. What Type of Prostate Cancer Is
+Systematically Overlooked by Multiparametric Magnetic Resonance Imaging? An Analysis from
+the PROMIS Cohort. Eur Urol. 2020;78(2):163–170. doi:10.1016/j.eururo.2020.04.029 [PubMed:
+32370911]
+35. Samaratunga H, Montironi R, True L, et al. International Society of Urological Pathology (ISUP)
+Consensus Conference on Handling and Staging of Radical Prostatectomy Specimens. Working
+group 1: specimen handling. Mod Pathol. 2011;24(1):6–15. doi:10.1038/modpathol.2010.178
+[PubMed: 20834234]
+
+Author Manuscript
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 16
+
+Author Manuscript
+Author Manuscript
+Figure 1. Illustration of different datasets used for validating MSERgSDM.
+
+Author Manuscript
+
+1.) 3D-printed mold cohort and clinical cohorts. D1 contains in vivo T2WI, ex vivo T2WI,
+and WMHs using a patient-specific 3D-printed mold. The in vivo and ex vivo T2WI coregistration was applied to approximate the ground truth deformation between WMH and
+in vivo T2WI. 2.) D2 comprises re-stitched pseudo WMHs and in vivo T2WI. 3.) D3 also
+contains WHMs but with ink annotations.
+
+Author Manuscript
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 17
+
+Author Manuscript
+Author Manuscript
+
+Figure 2.
+
+Author Manuscript
+
+The flowchart of MSERgSDM. MSERgSDM comprises two main parts: (1) multi-scale
+representation construction; and (2) SDM construction. The top three features with highest
+structural similarity index were identified as the multi-scale representation F 0SE and F 1SE.
+The SDM was estimated as the gaussian distribution with the orthogonal basis as PCA
+eigenvectors and variance as the eigenvalues. During itℎ registration iteration, the current
+deformation field di was projected into SDM and the estimated likelihood SDM(di) would be
+used as the regularizer to constrain the non-physical deformations.
+
+Author Manuscript
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 18
+
+Author Manuscript
+Author Manuscript
+Author Manuscript
+
+Figure 3.
+
+The psesudo-code of the implementation of MSERgSDM consists of two main parts:
+(1) construction of SDM, where PCA was implemented to estimate the eigenvectors and
+eigenvalues; and (2) registration, where SDM was added to αMI as the cost function for
+optimization.
+
+Author Manuscript
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 19
+
+Author Manuscript
+Author Manuscript
+Author Manuscript
+
+Figure 4.
+
+Author Manuscript
+
+Illustration of the deformations along the top three eigenvectors with [−3,3] standard
+deviation of SDM learned from our dataset. Here, u1, u2 and u3 denote the top three
+eigenvectors of SDM. The blue arrows denote the direction and the magnitude of the
+deformation spatially. The top eigenvectors represent the main deformation captured from
+the deformation pool.
+
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 20
+
+Author Manuscript
+Author Manuscript
+Figure 5.
+
+Author Manuscript
+
+Registration results on a pair of (a) in vivo T2WI and (b) WMH with corresponding (c) ex
+vivo T2WI. Images (d)–(f) are the capsule and anatomical ROI annotations. Green and red
+lines delineate the prostate capsule boundary on histopathology images and in vivo T2WI,
+respectively. The anatomical ROIs are annotated using blue lines on in vivo T2WI and
+orange lines on WMH and ex vivo T2WI. (g) and (h) are the ground truth transformation
+results of WMH and ex vivo T2WI. (i)–(l) are the registration results of MSERgSDM (i);
+MSERg(j); ProsRegNet(k); and intensity-based registration(l).
+
+Author Manuscript
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 21
+
+Author Manuscript
+Author Manuscript
+Figure 6.
+
+Author Manuscript
+
+Registration results of (a) two pairs of histopathology image and in vivo T2WI using (b)
+intensity-based registration; (c) ProsRegNet; (d) MSERg; and (e) MSERgSDM. Green and
+red lines delineate the prostate capsule boundary on histopathology images and in vivo
+T2WI, respectively. The tumor extensions are annotated using blue lines on in vivo T2WI
+and orange lines on histopathology images. The green and red dots denote the urethra on
+histopathology images and in vivo T2WI.
+
+Author Manuscript
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 22
+
+Author Manuscript
+Figure 7.
+
+Author Manuscript
+
+Registration results of (a, b) the same pseudo WMH using MSERg and MSERgSDM. The
+blue arrows visualize the spatial deformation. (a) the dashed line highlights the region of
+unnatural deformation; (b) the dash line highlights the corresponding region where SDM
+enables the constraining of non-realistic deformation.
+
+Author Manuscript
+Author Manuscript
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 23
+
+Table 1.
+
+Author Manuscript
+
+Data description.
+Dataset
+
+Number of
+patients
+(image
+pairs)
+
+Modalities
+
+T2WI resolution
+(mm)
+
+Slice-to-slice correspondence
+
+D1
+
+6 (17)
+
+in vivo T2WI, ex vivo
+T2WI (with prostate fitted
+in the 3D printed mold), ex
+vivo WMHs
+
+0.7×0.7×3
+
+Use ex vivo T2WI as reference
+to determine the slice-to-slice
+correspondence between ex vivo
+WMHs and in vivo T2WI
+
+DSC between
+registration results
+and ground truth
+deformation
+
+D2
+
+21 (28)
+
+in vivo T2WI, ex vivo
+stitched pseudo WMHs
+
+0.225×0.225×3
+
+Visually determined by a pathologist
+and a radiologist working together in
+unison
+
+DSC of anatomical
+ROIs
+
+D3
+
+21 (40)
+
+in vivo T2WI, ex vivo
+WMHs
+
+0.4×0.4×3.99
+
+Visually determined by a pathologist
+and a radiologist working together in
+unison
+
+RMSE between
+anatomical
+landmarks
+
+Author Manuscript
+Author Manuscript
+Author Manuscript
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Evaluation
+
+Li et al.
+
+Page 24
+
+Table 2.
+
+Author Manuscript
+
+notational description.
+Symbols
+
+Description
+
+Symbols
+
+Description
+
+Author Manuscript
+
+I0
+
+Fixed image
+
+I1
+
+Moving image
+
+Ω0
+
+Fixed image field
+
+Ω1
+
+Moving image field
+
+F 0SE
+
+Fixed image multi-scale SE descriptors
+
+F 1SE
+
+Moving image multi-scale SE descriptors
+
+d
+
+Deformation field
+
+D
+
+A set of deformation fields
+
+d
+
+Mean deformation field
+
+C
+
+Cooccurrence matrix
+
+m
+
+Number of SE descriptors
+
+δ
+
+Weighting parameter of SDM
+
+s
+
+Number of dimensions
+
+q
+
+Discretization degrees
+
+n
+
+Number of prior known deformation fields
+
+r
+
+Number of selected PCA components
+
+N
+
+Normal distribution of SDM
+
+u
+
+Eigenvectors
+
+U
+
+Eigenvector matrix
+
+U
+
+Eigenvector matrix with selected eigenvectors
+
+Σ
+
+Diagonal matrix of eigenvalues
+
+λ
+
+Eigenvalues
+
+Author Manuscript
+Author Manuscript
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 25
+
+Table 3.
+
+Quantitative registration results on D1.
+
+Author Manuscript
+
+The asterisks denote statistically significant differences compared to ground truth.
+Methods
+
+Capsule DSC
+
+ROI DSC
+
+Intensity based registration
+
+0.76 ± 0.08*
+
+0.69 ± 0.13*
+
+ProsRegNet
+
+0.95 ± 0.04*
+
+0.69 ± 0.14
+
+MSERg
+
+0.97 ± 0.02
+
+0.68 ± 0.14*
+
+MSERg SDM
+
+0.97 ± 0.02
+
+0.72 ± 0.10
+
+Ground truth
+
+0.98 ± 0.01
+
+0.74 ± 0.14
+
+Author Manuscript
+Author Manuscript
+Author Manuscript
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+Li et al.
+
+Page 26
+
+Table 4.
+
+Quantitative registration results on D2 and D3.
+
+Author Manuscript
+
+The asterisks denote statistically significant differences compared to MSERgSDM.
+D2 N = 28
+
+D3 N = 49
+
+Methods
+
+Capsule DSC
+
+ROI DSC
+
+Capsule DSC
+
+RMSD
+
+Intensity based registration
+
+0.84 ± 0.06*
+
+0.5±0.20
+
+0.78±0.09*
+
+3.53±1.20
+
+ProsRegNet
+
+0.91 ± 0.04*
+
+0.56±0.17*
+
+0.94±0.02*
+
+4.00±1.68*
+
+MSERg
+
+0.97 ± 0.01
+
+0.59±0.16*
+
+0.96±0.02
+
+3.69±1.44*
+
+MSERg SDM
+
+0.97 ± 0.01
+
+0.61±0.16
+
+0.96±0.02
+
+3.26±1.45
+
+Author Manuscript
+Author Manuscript
+Author Manuscript
+Med Phys. Author manuscript; available in PMC 2025 April 01.
+
+

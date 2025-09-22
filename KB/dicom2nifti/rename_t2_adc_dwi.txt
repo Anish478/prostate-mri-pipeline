@@ -1,0 +1,52 @@
+import os
+import shutil
+import numpy as np
+import pandas as pd
+
+dir = '/home/data/patients_nii'
+patients = os.listdir(dir)
+output = '/home/data/renamed_files/'
+for patient in patients:
+    patientPath = os.path.join(dir,patient)
+    if not os.path.exists(patientPath):
+        os.mkdir(patientPath)
+    outputPath = os.path.join(output, patient)
+    if not os.path.exists(outputPath):
+        os.mkdir(outputPath)
+    files = os.listdir(patientPath)
+    dwi = []
+    has1500 = False
+    has1400 = False
+    for i in files:
+        filePath = os.path.join(patientPath,i)
+        if 't2_tse_tra' in i or 'ax_t2' in i:
+            shutil.copy(filePath, outputPath+fr'/{patient}_T2W.nii.gz')
+        if 'adc' in i:
+            shutil.copy(filePath, outputPath+fr'/{patient}_ADC.nii.gz')
+        if 'dwi' in i and not 'adc' in i and not 'tracew' in i:
+            dwi.append(i)
+        if '1500' in i:
+            shutil.copy(filePath, outputPath+fr'/{patient}_DWI.nii.gz')
+            has1500 = True
+        if '1400' in i:
+            shutil.copy(filePath, outputPath+fr'/{patient}_DWI.nii.gz')
+            has1400 = True
+    minIndex = 0
+    indices = []
+    if not has1500 and not has1400:
+        for j in range(1, len(dwi)-1):
+            index = dwi[j].index('b')
+            print(index-1)
+            print(j)
+            indices.append(index)
+            print(indices)
+        if len(indices) > 0:
+            minIndex = min(indices)
+        if len(set(indices)) <= 1:
+            for j in dwi:
+                if 'calc' in j:
+                    shutil.copy(filePath, outputPath+fr'/{patient}_DWI.nii.gz')
+        else:
+            for j in dwi:
+                if str(minIndex) in j:
+                    shutil.copy(filePath, outputPath+fr'/{patient}_DWI.nii.gz')
