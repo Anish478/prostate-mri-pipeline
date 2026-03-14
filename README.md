@@ -224,19 +224,19 @@ The converter includes robust error handling:
 ### Console Output Example
 
 ```
-🔄 Processing case: Patient_001
+ Processing case: Patient_001
 📁 Found DICOM files in 3 directories
   📂 Processing subdirectory: T2_Sequence
-    ✅ Converted: T2W -> Patient_001_T2W.nii.gz
-       📋 MR | t2_tse_tra_p2_iso
+     Converted: T2W -> Patient_001_T2W.nii.gz
+        MR | t2_tse_tra_p2_iso
   📂 Processing subdirectory: DWI_ADC
-    ✅ Converted: ADC -> Patient_001_ADC.nii.gz
-       📋 MR | ep2d_diff_tra_DYNDIST_ADC
+     Converted: ADC -> Patient_001_ADC.nii.gz
+        MR | ep2d_diff_tra_DYNDIST_ADC
   📂 Processing subdirectory: Perfusion
-    ✅ Converted: HBV -> Patient_001_HBV.nii.gz
-       📋 MR | tfl_artperfusion_tra_blood_volume
+     Converted: HBV -> Patient_001_HBV.nii.gz
+        MR | tfl_artperfusion_tra_blood_volume
 
-🎉 Conversion complete! Processed 1 cases.
+ Conversion complete! Processed 1 cases.
 ```
 
 ### Integration with Downstream Pipeline
